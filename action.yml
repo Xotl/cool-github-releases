@@ -1,13 +1,22 @@
-name: 'The Cool GH Releases action'
-description: 'Download/Uploads Releases - A more complete action for Github releases'
+name: 'The Cool GH Releases Assets action'
+description: 'Download/Uploads Releases Assets - A more complete action for Github releases Assets'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  github_token:
+    description: 'Github secret used for operations'
     required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  mode:
+    description: 'Indicates if you want to download or upload Assets.'
+    required: true
+    default: 'download'
+  assets:
+    description: 'Absolute path to file. Multiple files can be specified using a comma as separator.'
+    required: true
+  tag:
+    description: 'Tag used for download/upload assets'
+    required: false
+  release_mrkdwn:
+    description: 'Description markdown used for new releases'
+    required: false
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'

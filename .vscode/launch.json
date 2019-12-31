@@ -15,6 +15,7 @@
                 "--name", "gh-action",
                 "-p", "9229:9229",
                 "-v", "${workspaceFolder}/src:/usr/src/app/src",
+                "-v", "${workspaceFolder}/.env:/usr/src/app/.env",
                 "gh-action",
                 "npm", "run", "debug"
             ],

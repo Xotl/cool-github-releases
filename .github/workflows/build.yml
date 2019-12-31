@@ -1,0 +1,68 @@
+name: 'Smash League | Update'
+
+on:
+  push: 
+    branches: 
+      - master
+
+jobs:
+
+  build:
+    name: 'Build'
+    runs-on: ubuntu-latest
+
+    if: >- 
+      github.event.head_commit.author.name != 'github' &&
+      github.ref == 'refs/heads/master' && github.repository == 'Xotl/cool-github-releases'
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build the Docker image
+        run: docker build --target builder -t gh-action-builder .
+          
+      - name: Generate new dist folder & files
+        run: |
+          mkdir new-dist
+          docker run --rm -v new-dist:/usr/src/app/dist gh-action-builder
+
+      - name: Save dist folder
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: ./new-dist/
+
+  commit:
+    name: 'Commit new ranking'
+    needs: build
+    runs-on: ubuntu-latest
+
+    env: 
+      REMOTE_REPO: https://${{ secrets.GITHUB_OAUTH_TOKEN }}@github.com/${{ github.repository }}.git
+      REMOTE_REF: ${{ github.ref }}
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Clean old dist
+        run: rm -rf dist
+
+      - name: Download dist from prev job
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+
+      - name: Update version
+        run: |
+          npm version | grep "cool-github-releases" | cut -d ':' -f2 | cut -d \' -f2
+          npm --no-git-tag-version version patch
+
+      - name: Update repo
+        run: |
+          NEW_VERSION=$(npm version | grep "smash-league" | cut -d ':' -f2 | cut -d \' -f2)
+          git config user.name "github"
+          git config user.email "github@users.noreply.github.com"
+          git add .
+          git commit -m "v${NEW_VERSION} | Auto pushed from Github Actions"
+          git tag -a "v${NEW_VERSION}" -m "v${NEW_VERSION} | Auto pushed from Github Actions"
+          git push --follow-tags ${REMOTE_REPO} HEAD:${REMOTE_REF}
