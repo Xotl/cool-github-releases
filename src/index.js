@@ -13,7 +13,7 @@ async function main() {
     // const { name:repo, owner: { name:owner } } = github.context.payload.repository
     
     const octokit = new github.GitHub(githubToken)
-    
+
     if (actionMode === 'download'){
         await download(octokit, {owner, repo})
         return
