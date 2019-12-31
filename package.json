@@ -1,0 +1,30 @@
+{
+  "name": "cool-github-releases",
+  "version": "0.1.0",
+  "description": "Download/Uploads Releases - A more complete action for Github releases",
+  "keywords": [
+    "Github",
+    "Action",
+    "Releases",
+    "Downloads",
+    "Uploads"
+  ],
+  "author": "Edgardo Campos (Xotl)",
+  "license": "MIT",
+  "repository": "github:Xotl/cool-github-releases",
+  "homepage": "https://github.com/Xotl/cool-github-releases",
+  "bugs": {
+    "url" : "https://github.com/Xotl/cool-github-releases/issues"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "debug": "node --inspect-brk=0.0.0.0:9229 --unhandled-rejections=strict src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build src/index.js -o dist"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "@actions/github": "^2.0.0"
+  }
+}
