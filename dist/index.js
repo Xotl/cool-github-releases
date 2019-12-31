@@ -5189,17 +5189,14 @@ const core = __webpack_require__(15);
 async function main() {
     const githubToken = core.getInput('github_token', { required: true });
 
-    const { payload: { repository: { full_name:repository } } } = github.context
+    const { name:repo, owner: { name:owner } } = github.context.payload.repository
+    console.log('Wow, such context', owner, repo)
 
-    // const octokit = new github.GitHub(githubToken);
-
-    // const releaseResponse = await octokit.repos.getLatestRelease({
-    //     owner,
-    //     repo
-    // })
-
-    console.log('Wow, such context', repository)
-    console.log('Wow, such stringified', JSON.stringify(github.context))
+    const octokit = new github.GitHub(githubToken);
+    const releaseResponse = await octokit.repos.getLatestRelease({
+        owner,
+        repo
+    })
 }
 
 main()
