@@ -1,4 +1,4 @@
-name: 'Build Dist'
+name: 'Master Code Updated'
 
 on:
   push: 
@@ -59,7 +59,7 @@ jobs:
 
       - name: Update repo
         run: |
-          NEW_VERSION=$(npm version | grep "smash-league" | cut -d ':' -f2 | cut -d \' -f2)
+          NEW_VERSION=$(npm version | grep "cool-github-releases" | cut -d ':' -f2 | cut -d \' -f2)
           git config user.name "github"
           git config user.email "github@users.noreply.github.com"
           git add .
