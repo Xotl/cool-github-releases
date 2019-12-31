@@ -5183,20 +5183,24 @@ function hasNextPage (link) {
 /***/ 267:
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
-const github = __webpack_require__(548);
-const core = __webpack_require__(15);
+const github = __webpack_require__(548)
+const core = __webpack_require__(15)
+
+const download = __webpack_require__(678)
 
 async function main() {
-    const githubToken = core.getInput('github_token', { required: true });
+    const githubToken = core.getInput('github_token', { required: true })
+    const actionMode = core.getInput('mode', { required: true })
 
-    const { name:repo, owner: { name:owner } } = github.context.payload.repository
-    console.log('Wow, such context', owner, repo)
-
-    const octokit = new github.GitHub(githubToken);
-    const releaseResponse = await octokit.repos.getLatestRelease({
-        owner,
-        repo
-    })
+    const owner = 'Xotl'
+    const repo = 'cool-github-releases'
+    // const { name:repo, owner: { name:owner } } = github.context.payload.repository
+    
+    const octokit = new github.GitHub(githubToken)
+    if (actionMode === 'download'){
+        await download(octokit, {owner, repo})
+    }
+    // TODO: Logic for create/update release 
 }
 
 main()
@@ -9015,6 +9019,21 @@ function applyAcceptHeader (res, headers) {
 /***/ (function(module) {
 
 module.exports = require("util");
+
+/***/ }),
+
+/***/ 678:
+/***/ (function(module) {
+
+'use sstrict'
+module.exports = async (octokit, context) => {
+    const { data:releaseResponse } = await octokit.repos.listTags(context)
+    // const releaseResponse = await octokit.repos.getLatestRelease({
+    //     owner, repo
+    // })
+    console.log('Wow, such release', releaseResponse)
+
+}
 
 /***/ }),
 
