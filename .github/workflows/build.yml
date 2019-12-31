@@ -1,4 +1,4 @@
-name: 'Smash League | Update'
+name: 'Build Dist'
 
 on:
   push: 
@@ -8,7 +8,7 @@ on:
 jobs:
 
   build:
-    name: 'Build'
+    name: 'Generate dist'
     runs-on: ubuntu-latest
 
     if: >- 
@@ -33,7 +33,7 @@ jobs:
           path: ./new-dist/
 
   commit:
-    name: 'Commit new ranking'
+    name: 'Commit new dist & version files'
     needs: build
     runs-on: ubuntu-latest
 
