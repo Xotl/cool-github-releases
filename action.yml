@@ -9,12 +9,12 @@ inputs:
     required: true
     default: 'download'
   assets:
-    description: 'Absolute path to file. Multiple files can be specified using a comma as separator.'
+    description: 'Absolute path to file. Multiple files can be specified using a semicolon as separator.'
     required: true
   tag:
     description: 'Tag used for download/upload assets'
     required: false
-  release_mrkdwn:
+  body_mrkdwn:
     description: 'Description markdown used for new releases'
     required: false
 runs:
