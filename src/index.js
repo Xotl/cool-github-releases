@@ -13,7 +13,8 @@ async function main() {
     //     repo
     // })
 
-    console.log('Wow, such context', repository);
+    console.log('Wow, such context', repository)
+    console.log('Wow, such stringified', JSON.stringify(github.context))
 }
 
 main()
