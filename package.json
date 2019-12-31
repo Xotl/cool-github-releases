@@ -1,6 +1,6 @@
 {
   "name": "cool-github-releases",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Download/Uploads Releases - A more complete action for Github releases",
   "keywords": [
     "Github",
@@ -14,7 +14,7 @@
   "repository": "github:Xotl/cool-github-releases",
   "homepage": "https://github.com/Xotl/cool-github-releases",
   "bugs": {
-    "url" : "https://github.com/Xotl/cool-github-releases/issues"
+    "url": "https://github.com/Xotl/cool-github-releases/issues"
   },
   "main": "src/index.js",
   "scripts": {
