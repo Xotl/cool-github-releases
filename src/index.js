@@ -14,9 +14,9 @@ async function main() {
 
     console.log('Wow, such debugging repository object', github.context.payload.repository)
 
-    const { name:repo, owner: { name:owner } } = github.context.payload.repository
+    const { name:repo, owner: { name, login } } = github.context.payload.repository
     const octokit = new github.GitHub(githubToken)
-    const context = {owner, repo}
+    const context = {repo, owner: name || login}
 
     if (actionMode === 'download') {
         await downloadRelease(octokit, context, githubToken)
