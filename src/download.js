@@ -5,7 +5,7 @@ const Path = require('path');
 const Fetch = require('node-fetch');
 const {
     getReleaseFn, splitAssetsString
-} = require('../utils')
+} = require('./utils')
 
 const PWD = process.cwd()
 

@@ -5,7 +5,7 @@ const Mime = require('mime-types')
 const Path = require('path');
 const {
     getReleaseFn, splitAssetsString
-} = require('../utils')
+} = require('./utils')
 
 const PWD = process.cwd()
 

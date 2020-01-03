@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Clean old dist
+      - name: Delete old dist
         run: rm -rf dist
 
       - name: Download dist from prev job

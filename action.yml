@@ -9,13 +9,16 @@ inputs:
     required: true
     default: 'download'
   assets:
-    description: 'Absolute path to file. Multiple files can be specified using a semicolon as separator.'
+    description: 'Path to file. Multiple files can be specified using a semicolon as separator.'
     required: true
   releaseId:
     description: 'Release id to use for updateting a release or to download assets.'
     required: false 
   tag_name:
     description: 'Tag used for download/upload assets and to create a release.'
+    required: false
+  release_name: 
+    description: 'Name to use instead for the release, if not provided the tag_name will be used instead.'
     required: false
   body_mrkdwn:
     description: 'Description markdown used in a releases.'
