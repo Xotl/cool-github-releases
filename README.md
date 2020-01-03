@@ -2,7 +2,9 @@
 
 # The Cool GH Releases action
 
-> Download/Uploads Releases Assets - A more complete action for Github releases Assets
+> Download/Uploads Releases Assets - A more complete action for Github releases
+
+
 
 ## Usage
 This action supports 3 modes: `download`, `update`, `delete`.
@@ -79,11 +81,12 @@ Here's another example:
 > **assets** - Will upload files `myFolder/README.md` & `LICENSE` to the release, but since the `LICENSE` file doesn't have an extension associated to a MIME type we need to specify it, in this case the MIME type is `text/plain`.
 > **github_token** - A valid github token. For releases you can use the one created for the workflow.
 
-## Inputs reference
 
+
+## Reference
 The required inputs will vary depending on the selected `mode`. There are only 3 valid values: `download`, `update`, `delete`.
 
-All modes require a valid `github_token`, commonly you will be to use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions erro message you will need to provide a token with a more elevated privilages.
+All modes require a valid `github_token`, commonly you will can use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions erro message you will need to provide a token with a more elevated privilages.
 
 ### `download` mode
 #### `assets` _(required)_
