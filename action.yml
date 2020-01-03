@@ -1,4 +1,4 @@
-name: 'The Cool GH Releases Assets action'
+name: 'The Cool GH Releases action'
 description: 'Download/Uploads Releases Assets - A more complete action for Github releases Assets'
 inputs:
   github_token:
