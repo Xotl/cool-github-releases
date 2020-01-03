@@ -45,12 +45,12 @@ jobs:
           isDraft: true
           tag_name: Test
           release_name: Testing release action
-          body_mrkdwn: "###It works!\n Wow, it worked like a charm 🎉"
+          body_mrkdwn: "### It works!\n Wow, it worked like a charm 🎉"
           assets: README.md;LICENSE|text/plain;
           github_token: ${{ github.token }}
   test-download:
     runs-on: ubuntu-latest
-    name: A job to test my action
+    name: Test action with download mode
     needs: test-update
     steps:
       - name: Checkout # To use this repository's private action, you must check out the repository
@@ -64,7 +64,7 @@ jobs:
         with:
           name: dist
 
-      - name: It should download assets README.md and LICENCE from test release 
+      - name: It should download assets README.md and LICENCE from Test release 
         uses: ./ # Uses the action in the root directory
         with:
           tag_name: Test
@@ -74,24 +74,25 @@ jobs:
         run: |
           if [ "$(cat dowloaded_README.md)" != "$(cat README.md)" ]; then exit 1; fi
           if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
-  # test-delete:
-  #   runs-on: ubuntu-latest
-  #   name: A job to test my action
-  #   needs: test-update
-  #   steps:
-  #     - name: Checkout # To use this repository's private action, you must check out the repository
-  #       uses: actions/checkout@v1 
+  test-delete:
+    runs-on: ubuntu-latest
+    name: Test action with delete mode
+    needs: test-download
+    steps:
+      - name: Checkout # To use this repository's private action, you must check out the repository
+        uses: actions/checkout@v1 
 
-  #     - name: Clean old dist
-  #       run: rm -rf dist
+      - name: Delete old dist
+        run: rm -rf dist
 
-  #     - name: Download dist from prev job
-  #       uses: actions/download-artifact@v1
-  #       with:
-  #         name: dist
+      - name: Download dist from prev job
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
 
-  #     - name: It should create a release with assets README.md and LICENCE 
-  #       uses: ./ # Uses the action in the root directory
-  #       with:
-  #         mode: update
-  #         github_token: ${{ github.token }}
+      - name: It should delete release with tag Test 
+        uses: ./ # Uses the action in the root directory
+        with:
+          mode: delete
+          tag_name: Test
+          github_token: ${{ github.token }}

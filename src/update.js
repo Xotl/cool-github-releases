@@ -159,7 +159,7 @@ module.exports = async (octokit, context) => {
             )
         )
     } catch (err) {
-        Core.warning('Release was created but some files were not uploaded succesfully. See error for details.')
+        Core.warning('Release was created/updated but some files were not uploaded succesfully. See error for details.')
 
         return Core.setFailed(`An error ocurred while uploading files: ${err}`)
     }
