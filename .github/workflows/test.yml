@@ -5,7 +5,7 @@ on:
       - master
 
 env:
-  tag_for_tests: ${{ env.GITHUB_HEAD_REF || env.GITHUB_REF || env.GITHUB_SHA }}
+  tag_for_tests: Test-${{ github.head_ref || github.ref || github.sha }}
 
 jobs:
   build:
