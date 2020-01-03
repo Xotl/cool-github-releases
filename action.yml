@@ -11,16 +11,24 @@ inputs:
   assets:
     description: 'Absolute path to file. Multiple files can be specified using a semicolon as separator.'
     required: true
-  tag:
-    description: 'Tag used for download/upload assets'
+  releaseId:
+    description: 'Release id to use for updateting a release or to download assets.'
+    required: false 
+  tag_name:
+    description: 'Tag used for download/upload assets and to create a release.'
     required: false
   body_mrkdwn:
-    description: 'Description markdown used for new releases'
+    description: 'Description markdown used in a releases.'
+    required: false
+  isDraft:
+    description: 'Set to true to indicate if it is a draft release.'
+    required: false
+  isPrerelease:
+    description: 'Set to true if you want the release to be a prerelease.'
     required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
-
 branding:
   icon: 'box'  
   color: 'blue'
