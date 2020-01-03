@@ -1,12 +1,10 @@
 name: 'Master Code Updated'
-
 on:
   push: 
     branches: 
       - master
 
 jobs:
-
   build:
     name: 'Generate dist'
     runs-on: ubuntu-latest
