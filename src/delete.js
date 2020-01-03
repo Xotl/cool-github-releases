@@ -1,7 +1,7 @@
 'use sstrict'
 const Core = require('@actions/core')
 
-module.exports = (octokit, context) => {
+module.exports = async (octokit, context) => {
     let release_id = Core.getInput('releaseId')
     const tag = Core.getInput('tag_name')
 
