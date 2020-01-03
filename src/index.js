@@ -12,6 +12,8 @@ async function main() {
     // Ensure it is masked in logs, just in case we happen to log that somewhere
     core.setSecret(githubToken)
 
+    console.log('Wow, such debugging', github.context)
+
     const { name:repo, owner: { name:owner } } = github.context.payload.repository
     const octokit = new github.GitHub(githubToken)
     const context = {owner, repo}
