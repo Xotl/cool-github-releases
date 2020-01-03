@@ -26,7 +26,21 @@ const getReleaseFn = (octokit, releaseId, tagName) => {
     ]
 }
 
+const findRelease = async (octokit, context, releaseId, tagName) => {
+    if (!releaseId && !tagName) {
+        return [null, new Error('No releaseId or tag_name provided.')]
+    }
+
+    const [releaseFn] = getReleaseFn(octokit, releaseId, tagName)
+    try {
+        return [(await releaseFn(context)).data]
+    } catch (err) {
+        return [null, new Error(err.message)]
+    }
+}
+
 module.exports = {
     splitAssetsString,
-    getReleaseFn
+    getReleaseFn,
+    findRelease
 }

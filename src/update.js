@@ -4,7 +4,9 @@ const Core = require('@actions/core')
 const Mime = require('mime-types')
 const Path = require('path');
 const {
-    getReleaseFn, splitAssetsString
+    findRelease, 
+    getReleaseFn,
+    splitAssetsString
 } = require('./utils')
 
 const PWD = process.cwd()
@@ -78,21 +80,11 @@ const uploadAssetToReleaseUrl = async (octokit, url, fileObj) => {
 }
 
 
-const editRelease = async (octokit, opts, releaseId, tagName) => {
-    const [releaseFn] = getReleaseFn(octokit, releaseId, tagName)
-    const { owner, repo } = opts
-
-    let releaseObj
+const editRelease = async (octokit, opts, release_id) => {
     try {
-        releaseObj = (await releaseFn({ owner, repo })).data
+        releaseObj = await octokit.repos.updateRelease({...opts, release_id})
     } catch (err) {
-        throw new Error(`Cannot edit release: Release '${releaseId || tagName}' doesn't exist`)
-    }
-
-    try {
-        releaseObj = await octokit.repos.updateRelease({...opts, release_id: releaseObj.id})
-    } catch (err) {
-        throw new Error(`An error ocurred while trying to update the release '${releaseId || tagName}': ${err}`)
+        throw new Error(`An error ocurred while trying to edit the release '${release_id}': ${err}`)
     }
 
     return releaseObj.data 
@@ -116,6 +108,7 @@ module.exports = async (octokit, context) => {
         body = `Release based on tag **${tagName}**. Enjoy! 🎉`
     }
 
+    // Validate files before trying anything with the Github Api
     let fileList
     if (assetsInput.length > 0) {
         fileList = parseFilesStringIntoList(assetsInput)
@@ -135,32 +128,40 @@ module.exports = async (octokit, context) => {
         prerelease: isPrerelease === 'true',
     }
 
+    // Check if a release can be retrieved, if we found something means we will edit it
+    const [foundRelease] = await findRelease(octokit, context, releaseId, tagName)
+
+    // Create/Update the release values
     let releaseObj
     try {
-        if (releaseId || tagName) {
-            releaseObj = await editRelease(octokit, opts, releaseId, tagName)
+        if (foundRelease) {
+            releaseObj = await editRelease(octokit, opts, foundRelease.id)
+            console.log(`Release '${releaseId || tagName}' edited succesfully!`)
         } else {
             releaseObj = (await octokit.repos.createRelease(opts)).data
+            console.log(`Release created with tag ${tagName}!`)
         }
     } catch (err) {
-
-        return Core.setFailed(`Failed while updating/creating release: ${err}`)
+        return Core.setFailed(`Failed while updating/creating release: ${err.message}`)
     }
-    console.log(`Release created with tag ${tagName}.`)
+
+    if (!Array.isArray(fileList) || fileList.length === 0) {
+        console.log('Finishing without uploding any assets since no assets were specified.')
+        return 
+    }
     
-    if (fileList) {
-        console.log(`Started the upload of assets: \n${fileList.map(o => o.filePath).join('\n')}`)
-        try {
-            await Promise.all(
-                fileList.map(
-                    (fileObj) => uploadAssetToReleaseUrl(octokit, releaseObj.upload_url, fileObj)
-                )
+    // Upload assets
+    console.log(`Started the upload of assets: \n${fileList.map(o => o.filePath).join('\n')}`)
+    try {
+        await Promise.all(
+            fileList.map(
+                (fileObj) => uploadAssetToReleaseUrl(octokit, releaseObj.upload_url, fileObj)
             )
-        } catch (err) {
-            Core.warning('Release was created but some files were not uploaded succesfully. See error for details.')
+        )
+    } catch (err) {
+        Core.warning('Release was created but some files were not uploaded succesfully. See error for details.')
 
-            return Core.setFailed(`An error ocurred while uploading files: ${err}`)
-        }
-        console.log(`Finished uploading ${fileList.length} assets.`)
+        return Core.setFailed(`An error ocurred while uploading files: ${err}`)
     }
+    console.log(`Finished uploading ${fileList.length} assets.`)
 }
