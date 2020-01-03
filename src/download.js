@@ -47,7 +47,7 @@ module.exports = async (octokit, context, githubToken) => {
         const response = await releaseFn(context)
         releaseObj = response.data
     } catch(err) {
-        return Core.setFailed(`Couldn't retrieve '${type}' release. Does the release exists?.`)
+        return Core.setFailed(`Couldn't retrieve '${type}' release: ${err.message}`)
     }
 
     const assetList = parseFilesStringIntoList(assetsInput)

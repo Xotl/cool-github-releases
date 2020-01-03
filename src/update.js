@@ -84,7 +84,7 @@ const editRelease = async (octokit, opts, release_id) => {
     try {
         releaseObj = await octokit.repos.updateRelease({...opts, release_id})
     } catch (err) {
-        throw new Error(`An error ocurred while trying to edit the release '${release_id}': ${err}`)
+        throw new Error(`An error ocurred while trying to edit the release '${release_id}': ${err.message}`)
     }
 
     return releaseObj.data 

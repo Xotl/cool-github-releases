@@ -12,7 +12,7 @@ const getReleaseFn = (octokit, releaseId, tagName) => {
         params.release_id = releaseId
         octokitFn = octokit.repos.getRelease
     } else if (tagName) {// By tag
-        type = 'tag: ' + releaseId
+        type = 'tag: ' + tagName
         params.tag = tagName
         octokitFn = octokit.repos.getReleaseByTag
     } else {// Latest release
