@@ -2,6 +2,7 @@ name: 'Check suite'
 on:
   check_suite:
     types: [completed]
+  push:
 
 env:
   THE_GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -13,4 +14,4 @@ jobs:
 
     steps:
       - name: Print context
-        run: echo ${{ env.THE_GITHUB_CONTEXT }}
+        run: echo ${{ github.event }}

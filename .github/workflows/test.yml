@@ -84,7 +84,7 @@ jobs:
         with:
           name: dist
 
-      - name: It should download assets README.md and LICENCE from Test release 
+      - name: It should download assets README.md, LICENCE, test.yml from Test release 
         uses: ./ # Uses the action in the root directory
         with:
           tag_name: ${{ env.tag_for_tests }}
