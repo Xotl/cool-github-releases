@@ -5,12 +5,12 @@
 
 Content
 * [Usage](#Usage)
-  * [Download assets from a release](#Download-assets-from-a-release)
-  * [Create a release and upload assets](#Create-a-release-and-upload-assets)
-* [Reference](#Reference)
-  * [Download mode](#Mode:-`download`)
-  * [Update mode](#Mode:-`update`)
-  * [Delete mode](#Mode:-`delete`)
+  * [Download assets from a release](#download-assets-from-a-release)
+  * [Create a release and upload assets](#create-a-release-and-upload-assets)
+* [Reference](#reference)
+  * [Download mode](#mode-download)
+  * [Update mode](#mode-update)
+  * [Delete mode](#mode-delete)
 
 <br/>
 
@@ -100,8 +100,6 @@ The required inputs will vary depending on the selected `mode`. There are only 3
 
 All modes require a valid `github_token`, commonly you will can use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions erro message you will need to provide a token with a more elevated privilages.
 
-<br/>
-<br/>
 <br/>
 
 ### Mode: `download`
