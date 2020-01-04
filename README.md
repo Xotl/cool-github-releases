@@ -98,7 +98,7 @@ Here's another example:
 ## Reference
 The required inputs will vary depending on the selected `mode`. There are only 3 valid values: `download`, `update`, `delete`.
 
-All modes require a valid `github_token`, commonly you can use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions error messages you will need to provide a token with more elevated privilages.
+All modes require a valid `github_token`, commonly you can use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions error messages you will need to provide a token with more elevated privileges.
 
 <br/>
 
@@ -110,7 +110,7 @@ Use this mode to download assets from an existant release.
 > <asset_expresion> := <asset_name>  
 > <asset_expresion> := <asset_name>|<file_path>  
 
-* **asset_name** - Name of the asset in the release. The that you will see under asset section in a release a Github page.  
+* **asset_name** - Name of the asset in the release that you will see under asset section in a release at the Github page.  
 * **file_path** - A valid path where the asset will be downloaded.  
 
 A string indicating the assets that you want to download. You can get one asset, multiple assets or even specify a download path.
@@ -144,11 +144,11 @@ assets: README.md;myfile.zip;cat.png
 assets: myfile.zip|myFolder/myfile.zip;cat.png;logo.svg|myFolder/something.svg
 ```
 #### `releaseId`
-You can provide a release id instead of a tag. If you pass `releaseId` the input `tag_name` will be ignored.
+You can provide a release id instead of a tag. If you pass `releaseId` the input `tag_name` will be ignored.  
 **Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
 
 #### `tag_name`
-The tag of a release. If `releaseId` is provided then this value will be ignored.
+The tag of a release. If `releaseId` is provided then this value will be ignored.  
 **Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
 
 <br/>
@@ -169,15 +169,15 @@ Use this mode to create/edit releases. Also this mode allows you to upload asset
 
 A string indicating the path of the file(s) that you want to upload. You can upload one or multiple files by using the character `;` as separator.
 
-Since the Github Api requires to indicate the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of each file you want to upload, the action will try to infer the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) based on the extension (it uses [mime-types](https://www.npmjs.com/package/mime-types)'s lookup method). If the file has no extension or the extension cannot be associated to just one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) then you need to speficy the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types).
+Since the [Github Api](https://developer.github.com/v3/repos/releases/#upload-a-release-asset) requires to indicate the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of each file you want to upload, the action will try to infer the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) based on the extension (it uses [mime-types](https://www.npmjs.com/package/mime-types)'s lookup method). If the file has no extension or the extension cannot be associated to just one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) then you need to speficy a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types).
 
-To specify a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) you need to use the character `|` after the a file path. 
+To specify a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) you need to use the character `|` after the file path. 
 
 Check some examples:
 ##### Single file
 ```yaml
 # Will upload file README.md that is located at the current working directory.
-# The MIME type type will be inferred.
+# The MIME type will be inferred.
 assets: README.md
 ```
 ##### Single file with [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
@@ -201,6 +201,7 @@ assets: myFolder/LICENSE|text/plain;myfile.zip;anotherFolder/myBinaryFile|applic
 ```
 #### `releaseId`
 ⚠ _This value is required if no `tag_name` is provided._
+
 Id of the release that you want to edit. If `releaseId` then `tag_name` will be ignored.
 
 #### `tag_name`
@@ -216,7 +217,7 @@ Indicates the name of the release. If this value is not provided then the value 
 Description that you want for your release. This can be mardown syntax. Defualt value is `Release based on tag **${tag_name}**. Enjoy! 🎉`
 
 #### `isDraft`
-Set this value to `true` if you want this release to be flagged as a draft.
+Set this value to `true` if you want this release to be flagged as a draft.  
 **Note:** _a draft release won't generate any tags._
 
 #### `isPrerelease`
@@ -238,7 +239,7 @@ Example:
         
         # Use the output from the `hello` step
         - name: Get the output releaseId
-          run: echo "The releaseId is ${{ steps.test_create.outputs.releaseId }}"
+          run: echo "The releaseId is ${{ steps.hello.outputs.releaseId }}"
 ```
 
 <br/>
@@ -246,15 +247,17 @@ Example:
 <br/>
 
 ### Mode: `delete`
-Deletes a release by tag or id.
+Deletes a release by tag or id.  
 **Note:** tag associated to that release won't be deleted.
 
 #### `releaseId`
 ⚠  _This value is required if no `tag_name` is provided._
+
 Id of the release that you want to delete. If `releaseId` is provided then `tag_name` will be ignored.
 
 #### `tag_name`
 ⚠  _This value is required if no `releaseId` is provided._
+
 Tag associated to the release that you want to delete.
 
 <br/>

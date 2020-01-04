@@ -3,6 +3,10 @@ on:
   push: 
     branches: 
       - master
+    paths-ignore:
+      - 'README.md'
+      - '.github/**'
+      - '.vscode/**'
 
 jobs:
   build:
@@ -55,10 +59,10 @@ jobs:
 
       - name: Push tags & files back to repo
         run: |
-          NEW_VERSION=$(npm version | grep "cool-github-releases" | cut -d ':' -f2 | cut -d \' -f2)
+          NEW_TAG="v$(npm version | grep "cool-github-releases" | cut -d ':' -f2 | cut -d \' -f2)"
           git config user.name "github"
           git config user.email "github@users.noreply.github.com"
           git add .
-          git commit -m "v${NEW_VERSION} | Auto pushed from Github Actions"
-          git tag -a "v${NEW_VERSION}" -m "v${NEW_VERSION} | Auto pushed from Github Actions"
+          git commit -m "${NEW_TAG} | Auto pushed from Github Actions"
+          git tag -a "${NEW_TAG}" -m "${NEW_TAG} | Auto pushed from Github Actions"
           git push --follow-tags ${REMOTE_REPO} HEAD:${REMOTE_REF}
