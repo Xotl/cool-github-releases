@@ -247,13 +247,14 @@ Example:
 
 ### Mode: `delete`
 Deletes a release by tag or id.
+**Note:** tag associated to that release won't be deleted.
 
 #### `releaseId`
-_This value is required if no `tag_name` is provided._
-Id of the release that you want to delete. If `releaseId` then `tag_name` will be ignored.
+⚠  _This value is required if no `tag_name` is provided._
+Id of the release that you want to delete. If `releaseId` is provided then `tag_name` will be ignored.
 
 #### `tag_name`
-_This value is required if no `releaseId` is provided._
+⚠  _This value is required if no `releaseId` is provided._
 Tag associated to the release that you want to delete.
 
 <br/>
