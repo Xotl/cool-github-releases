@@ -88,12 +88,13 @@ jobs:
         uses: ./ # Uses the action in the root directory
         with:
           tag_name: ${{ env.tag_for_tests }}
-          assets: README.md|dowloaded_README.md;LICENSE|dowloaded_LICENSE;
+          assets: README.md|dowloaded_README.md;LICENSE|dowloaded_LICENSE;.github/workflows/test.yml|dowloaded_test.yml
           github_token: ${{ github.token }}
       - name: Confirm that files are correct
         run: |
           if [ "$(cat dowloaded_README.md)" != "$(cat README.md)" ]; then exit 1; fi
           if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
+          if [ "$(cat dowloaded_test.yml)" != "$(cat .github/workflows/test.yml)" ]; then exit 1; fi
   test-delete:
     runs-on: ubuntu-latest
     name: Test action with delete mode
