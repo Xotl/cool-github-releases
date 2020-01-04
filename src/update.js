@@ -141,7 +141,7 @@ module.exports = async (octokit, context) => {
             }
 
             opts.draft = draft === 'true'
-            opts.draft = prerelease === 'true'
+            opts.prerelease = prerelease === 'true'
 
             releaseObj = (await octokit.repos.createRelease(opts)).data
             console.log(`Release created with tag ${tag_name}!`)
