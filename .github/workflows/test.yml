@@ -88,7 +88,7 @@ jobs:
         uses: ./ # Uses the action in the root directory
         with:
           tag_name: ${{ env.tag_for_tests }}
-          assets: README.md|dowloaded_README.md;LICENSE|dowloaded_LICENSE;.github/workflows/test.yml|dowloaded_test.yml
+          assets: README.md|dowloaded_README.md;LICENSE|dowloaded_LICENSE;test.yml|.github/workflows/dowloaded_test.yml
           github_token: ${{ github.token }}
       - name: Confirm that files are correct
         run: |
