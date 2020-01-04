@@ -1,8 +1,11 @@
 ![Test status badge](https://github.com/Xotl/cool-github-releases/workflows/Test%20action%20modes/badge.svg?branch=master)
 
 # The Cool GH Releases action
-> Download/Uploads Releases Assets - A more complete action for Github releases
+> Download/Upload release Assets - A more complete action for Github releases
 
+Content
+* [Usage](#Usage)
+* [Reference](#Reference)
 
 ## Usage
 This action supports 3 modes: `download`, `update`, `delete`.
@@ -93,8 +96,9 @@ Use this mode to download assets from an existant release.
 >  
 > <asset_expresion> := <asset_name>  
 > <asset_expresion> := <asset_name>|<file_path>  
-**asset_name** - Name of the asset in the release. The that you will see under asset section in a release a Github page.  
-**file_path** - A valid path where the asset will be downloaded.  
+
+* **asset_name** - Name of the asset in the release. The that you will see under asset section in a release a Github page.  
+* **file_path** - A valid path where the asset will be downloaded.  
 
 A string indicating the assets that you want to download. You can get one asset, multiple assets or even specify a download path.
 
@@ -141,9 +145,10 @@ Use this mode to create/edit releases. Also this mode allows you to upload asset
 > <file_expresion>[;<file_expresion>...;<file_expresion>]  
 >  
 > <file_expresion> := <file_path>  
-> <file_expresion> := <file_path>|<mime_type>  
-**file_path** - Path where the file is located.  
-**mime_type** - A valid MIME type of the file that will be uploaded.  
+> <file_expresion> := <file_path>|<mime_type>
+
+* **file_path** - Path where the file is located.  
+* **mime_type** - A valid MIME type of the file that will be uploaded.  
 
 A string indicating the path of the file(s) that you want to upload. You can upload one or multiple files by using the character `;` as separator.
 
@@ -178,11 +183,11 @@ assets: README.md;myfile.zip;cat.png
 assets: myFolder/LICENSE|text/plain;myfile.zip;anotherFolder/myBinaryFile|application/octet-stream
 ```
 #### `releaseId`
-_This value is required if no `tag_name` is provided._
+⚠ _This value is required if no `tag_name` is provided._
 Id of the release that you want to edit. If `releaseId` then `tag_name` will be ignored.
 
 #### `tag_name`
-_This value is required if no `releaseId` is provided._
+⚠  _This value is required if no `releaseId` is provided._
 
 Tag that will be used to edit/create the release. If a release with the tag name provided already exists then the release will be edited otherwise it will create a release associated to that tag.
 

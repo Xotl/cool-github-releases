@@ -38,10 +38,14 @@ const downloadFile = (assetId, output, githubToken, context) => new Promise(
 module.exports = async (octokit, context, githubToken) => {
     const releaseId = Core.getInput('releaseId')
     const tagName = Core.getInput('tag_name')
-    const assetsInput = Core.getInput('assets')
+    const assetsInput = Core.getInput('assets', { required: true })
+
+    if (!assetsInput) {
+        return Core.setFailed('Missing input: You need to provide the assets string.')
+    }
 
     if (!releaseId && !tagName) {
-        return Core.setFailed(`Missing input: You need to provide either 'releaseId' or 'tag_name'.`)
+        return Core.setFailed('Missing input: You need to provide either "releaseId" or "tag_name".')
     }
 
     const [releaseFn, type] = getReleaseFn(octokit, releaseId, tagName)

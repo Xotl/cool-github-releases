@@ -1,16 +1,16 @@
-name: 'The Cool GH Releases action'
-description: 'Download/Uploads Releases Assets - A more complete action for Github releases Assets'
+name: 'Cool GH Releases'
+description: 'Download/Upload release Assets - A more complete action for Github Releases'
 inputs:
   github_token:
     description: 'Github secret used for operations'
     required: true
   mode:
-    description: 'Indicates if you want to download or upload Assets.'
+    description: 'Operation mode: download, update or delete. Default is download'
     required: true
     default: 'download'
   assets:
-    description: 'Path to file. Multiple files can be specified using a semicolon as separator.'
-    required: true
+    description: 'Path to file or asset name. Multiple files/assets can be specified using a semicolon as separator.'
+    required: false
   releaseId:
     description: 'Release id to use for updateting a release or to download assets.'
     required: false 
