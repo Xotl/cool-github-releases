@@ -91,21 +91,20 @@ const editRelease = async (octokit, opts, release_id) => {
 }
 
 module.exports = async (octokit, context) => {
-    const tag_name = Core.getInput('tag_name')
-    const releaseId = Core.getInput('releaseId')
-
-    if (!releaseId && !tag_name) {
-        return Core.setFailed(`Missing input: You need to provide either 'releaseId' or 'tag_name'.`)
-    }
-
-
     // If string is empty then we change value to 'undefined' so 
     // octokit won't pass those values as parameters 
-    const draft = Core.getInput('isDraft')  || undefined
+    const tag_name = Core.getInput('tag_name') || undefined
+    const releaseId = Core.getInput('releaseId') || undefined
+    const draft = Core.getInput('isDraft') || undefined
     const prerelease = Core.getInput('isPrerelease')  || undefined
     const assetsInput = Core.getInput('assets') || undefined
     const name = Core.getInput('release_name') || undefined
     const body = Core.getInput('body_mrkdwn') || undefined
+
+
+    if (!releaseId && !tag_name) {
+        return Core.setFailed(`Missing input: You need to provide either 'releaseId' or 'tag_name'.`)
+    }
     
 
     // Validate files before trying anything with the Github Api
