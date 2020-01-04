@@ -151,7 +151,7 @@ module.exports = async (octokit, context) => {
     // Sets the output of this action
     Core.setOutput('releaseId', releaseObj.id);
 
-    if (!Array.isArray(fileList) || fileList.length === 0) {
+    if (!fileList) {
         console.log('Finishing without uploding any assets since no assets were specified.')
         return 
     }

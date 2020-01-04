@@ -16,7 +16,7 @@ jobs:
     if: github.event.head_commit.author.name != 'github'
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Build the Docker image
         run: docker build --target builder -t gh-action-builder .
@@ -42,7 +42,7 @@ jobs:
       REMOTE_REF: ${{ github.ref }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Delete old dist
         run: rm -rf dist
