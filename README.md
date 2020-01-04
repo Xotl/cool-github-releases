@@ -5,7 +5,12 @@
 
 Content
 * [Usage](#Usage)
+  * [Download assets from a release](#Download-assets-from-a-release)
+  * [Create a release and upload assets](#Create-a-release-and-upload-assets)
 * [Reference](#Reference)
+  * [Download mode](#Mode:-`download`)
+  * [Update mode](#Mode:-`update`)
+  * [Delete mode](#Mode:-`delete`)
 
 ## Usage
 This action supports 3 modes: `download`, `update`, `delete`.
@@ -206,6 +211,24 @@ Set this value to `true` if you want this release to be flagged as a draft.
 Set this value to `true` if you want this release to be flagged as a prerelease.
 
 
+#### Outputs
+This is the only mode that outputs something outside the action. It will expose the id of the created/edited release using the name `releaseId`.
+
+Example:
+```yaml
+      - name: It should create a release with assets README.md and LICENCE
+        id: hello
+        uses: Xotl/cool-github-releases@1.0
+        with:
+          mode: update
+          tag_name: v3.2.1
+          github_token: ${{ github.token }}
+        
+        # Use the output from the `hello` step
+        - name: Get the output releaseId
+          run: echo "The releaseId is ${{ steps.test_create.outputs.releaseId }}"
+```
+
 ### Mode: `delete`
 Deletes a release by tag or id.
 
@@ -216,3 +239,7 @@ Id of the release that you want to delete. If `releaseId` then `tag_name` will b
 #### `tag_name`
 _This value is required if no `releaseId` is provided._
 Tag associated to the release that you want to delete.
+
+
+### Thanks fo using it! 😊
+Find something odd or not working properly?, please create an issue with the details. 
