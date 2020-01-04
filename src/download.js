@@ -48,6 +48,9 @@ module.exports = async (octokit, context, githubToken) => {
 
     let releaseObj
     try {
+        if (type === 'latest') {
+            console.log('No tag or id provided: Looking for the latest release.')
+        }
         const response = await releaseFn(context)
         releaseObj = response.data
     } catch(err) {
