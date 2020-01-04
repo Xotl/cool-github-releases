@@ -5,7 +5,6 @@ const Mime = require('mime-types')
 const Path = require('path');
 const {
     findRelease, 
-    getReleaseFn,
     splitAssetsString
 } = require('./utils')
 
@@ -109,7 +108,7 @@ module.exports = async (octokit, context) => {
 
     // Validate files before trying anything with the Github Api
     let fileList
-    if (assetsInput.length > 0) {
+    if (typeof assetsInput === 'string') {
         fileList = parseFilesStringIntoList(assetsInput)
         try {
             await Promise.all( fileList.map( fileValidation ) )// Validate files
