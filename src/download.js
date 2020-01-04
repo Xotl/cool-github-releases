@@ -40,6 +40,10 @@ module.exports = async (octokit, context, githubToken) => {
     const tagName = Core.getInput('tag_name')
     const assetsInput = Core.getInput('assets')
 
+    if (!releaseId && !tagName) {
+        return Core.setFailed(`Missing input: You need to provide either 'releaseId' or 'tag_name'.`)
+    }
+
     const [releaseFn, type] = getReleaseFn(octokit, releaseId, tagName)
 
     let releaseObj

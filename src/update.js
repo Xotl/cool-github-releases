@@ -91,17 +91,21 @@ const editRelease = async (octokit, opts, release_id) => {
 }
 
 module.exports = async (octokit, context) => {
-    const tagName = Core.getInput('tag_name', { required: true })
+    const tag_name = Core.getInput('tag_name')
     const releaseId = Core.getInput('releaseId')
-    const isDraft = Core.getInput('isDraft')
-    const isPrerelease = Core.getInput('isPrerelease')
-    const assetsInput = Core.getInput('assets')
+
+    if (!releaseId && !tag_name) {
+        return Core.setFailed(`Missing input: You need to provide either 'releaseId' or 'tag_name'.`)
+    }
 
 
     // If string is empty then we change value to 'undefined' so 
     // octokit won't pass those values as parameters 
-    let name = Core.getInput('release_name') || undefined
-    let body = Core.getInput('body_mrkdwn') || undefined
+    const draft = Core.getInput('isDraft')  || undefined
+    const prerelease = Core.getInput('isPrerelease')  || undefined
+    const assetsInput = Core.getInput('assets') || undefined
+    const name = Core.getInput('release_name') || undefined
+    const body = Core.getInput('body_mrkdwn') || undefined
     
 
     // Validate files before trying anything with the Github Api
@@ -118,38 +122,29 @@ module.exports = async (octokit, context) => {
     }
 
     // Check if a release can be retrieved, if we found something means we will edit it
-    const [foundRelease] = await findRelease(octokit, context, releaseId, tagName)
-
-    const opts = {
-        ...context, body, name,
-        tag_name: tagName,
-        draft: isDraft === 'true',
-        prerelease: isPrerelease === 'true',
-    }
+    const [foundRelease] = await findRelease(octokit, context, releaseId, tag_name)
 
     // Create/Update the release values
+    const opts = { ...context, body, name, tag_name, draft, prerelease }
     let releaseObj
     try {
         if (foundRelease) {
             releaseObj = await editRelease(octokit, opts, foundRelease.id)
-            console.log(`Release '${releaseId || tagName}' edited succesfully!`)
+            console.log(`Release '${releaseId || tag_name}' edited succesfully!`)
         } else {
             if (!name) {
-                opts.name = tagName
+                opts.name = tag_name
             }
 
             if (!body) {
-                opts.body = `Release based on tag **${tagName}**. Enjoy! 🎉`
+                opts.body = `Release based on tag **${tag_name}**. Enjoy! 🎉`
             }
 
-            const opts = {
-                ...context, body, name,
-                tag_name: tagName,
-                draft: isDraft === 'true',
-                prerelease: isPrerelease === 'true',
-            }
+            opts.draft = draft === 'true'
+            opts.draft = prerelease === 'true'
+
             releaseObj = (await octokit.repos.createRelease(opts)).data
-            console.log(`Release created with tag ${tagName}!`)
+            console.log(`Release created with tag ${tag_name}!`)
         }
     } catch (err) {
         return Core.setFailed(`Failed while updating/creating release: ${err.message}`)
