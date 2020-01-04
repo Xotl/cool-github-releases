@@ -12,6 +12,8 @@ Content
   * [Update mode](#Mode:-`update`)
   * [Delete mode](#Mode:-`delete`)
 
+<br/>
+
 ## Usage
 This action supports 3 modes: `download`, `update`, `delete`.
 A common use is to create releases or to get assets from a release, here are some examples:
@@ -87,12 +89,20 @@ Here's another example:
 > **assets** - Will upload files `myFolder/README.md` & `LICENSE` to the release, but since the `LICENSE` file doesn't have an extension associated to a MIME type we need to specify it, in this case the MIME type is `text/plain`.  
 > **github_token** - A valid github token. For releases you can use the one created for the workflow.  
 
-
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
 ## Reference
 The required inputs will vary depending on the selected `mode`. There are only 3 valid values: `download`, `update`, `delete`.
 
 All modes require a valid `github_token`, commonly you will can use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions erro message you will need to provide a token with a more elevated privilages.
+
+<br/>
+<br/>
+<br/>
 
 ### Mode: `download`
 Use this mode to download assets from an existant release.
@@ -142,6 +152,10 @@ You can provide a release id instead of a tag. If you pass `releaseId` the input
 #### `tag_name`
 The tag of a release. If `releaseId` is provided then this value will be ignored.
 **Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
+
+<br/>
+<br/>
+<br/>
 
 ### Mode: `update`
 Use this mode to create/edit releases. Also this mode allows you to upload assets to the release.
@@ -229,6 +243,10 @@ Example:
           run: echo "The releaseId is ${{ steps.test_create.outputs.releaseId }}"
 ```
 
+<br/>
+<br/>
+<br/>
+
 ### Mode: `delete`
 Deletes a release by tag or id.
 
@@ -240,6 +258,9 @@ Id of the release that you want to delete. If `releaseId` then `tag_name` will b
 _This value is required if no `releaseId` is provided._
 Tag associated to the release that you want to delete.
 
+<br/>
+<br/>
+<br/>
 
 ### Thanks fo using it! 😊
 Find something odd or not working properly?, please create an issue with the details. 
