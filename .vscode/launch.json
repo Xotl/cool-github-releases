@@ -23,8 +23,9 @@
                 "<node_internals>/**"
             ],
             "localRoot": "${workspaceFolder}",
-            "remoteRoot": "/usr/src",
-            "port": 9229
+            "remoteRoot": "/usr/src/app",
+            "port": 9229,
+            // "console": "integratedTerminal"
         }
     ]
 }

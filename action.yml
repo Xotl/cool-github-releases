@@ -1,26 +1,37 @@
-name: 'The Cool GH Releases Assets action'
-description: 'Download/Uploads Releases Assets - A more complete action for Github releases Assets'
+name: 'Cool GH Releases'
+description: 'Download/Upload release Assets - A more complete action for Github Releases'
 inputs:
   github_token:
     description: 'Github secret used for operations'
     required: true
   mode:
-    description: 'Indicates if you want to download or upload Assets.'
+    description: 'Operation mode: download, update or delete. Default is download'
     required: true
     default: 'download'
   assets:
-    description: 'Absolute path to file. Multiple files can be specified using a comma as separator.'
-    required: true
-  tag:
-    description: 'Tag used for download/upload assets'
+    description: 'Path to file or asset name. Multiple files/assets can be specified using a semicolon as separator.'
     required: false
-  release_mrkdwn:
-    description: 'Description markdown used for new releases'
+  releaseId:
+    description: 'Release id to use for updateting a release or to download assets.'
+    required: false 
+  tag_name:
+    description: 'Tag used for download/upload assets and to create a release.'
+    required: false
+  release_name: 
+    description: 'Name to use instead for the release, if not provided the tag_name will be used instead.'
+    required: false
+  body_mrkdwn:
+    description: 'Description markdown used in a releases.'
+    required: false
+  isDraft:
+    description: 'Set to true to indicate if it is a draft release.'
+    required: false
+  isPrerelease:
+    description: 'Set to true if you want the release to be a prerelease.'
     required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
-
 branding:
   icon: 'box'  
   color: 'blue'

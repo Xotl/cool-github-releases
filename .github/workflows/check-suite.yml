@@ -1,0 +1,18 @@
+name: 'Check suite'
+on:
+  check_suite:
+    types: 
+      - rerequested
+      - completed
+
+env:
+  THE_GITHUB_CONTEXT: ${{ toJson(github) }}
+
+jobs:
+  something:
+    name: 'some job'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print context
+        run: echo "Wow, such debugging ${{ toJson(github.event) }}"

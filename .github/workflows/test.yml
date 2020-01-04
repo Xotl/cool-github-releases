@@ -1,0 +1,89 @@
+name: 'Test action modes'
+on:
+  push: 
+    branches: 
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  tag_for_tests: Test-${{ github.head_ref || github.ref || github.sha }}
+
+jobs:
+  build:
+    name: 'Generate dist'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build the Docker image
+        run: docker build --target builder -t gh-action-builder .
+          
+      - name: Generate new dist folder & files
+        run: |
+          mkdir new-dist
+          docker run --rm -v ${PWD}/new-dist:/usr/src/app/dist gh-action-builder
+
+      - name: Save dist folder
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: ./new-dist/
+  tests:
+    runs-on: ubuntu-latest
+    name: Test action with update mode
+    needs: build
+    steps:
+      - name: Checkout # To use this repository's private action, you must check out the repository
+        uses: actions/checkout@v1 
+
+      - name: Delete old dist
+        run: rm -rf dist
+
+      - name: Download dist from build job
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+
+      - name: It should create a release with assets README.md and LICENCE
+        id: test_create
+        uses: ./ # Uses the action in the root directory
+        with:
+          mode: update
+          isPrerelease: true
+          tag_name: ${{ env.tag_for_tests }}
+          release_name: Testing release action
+          body_mrkdwn: "### It works!\n Wow, it worked like a charm 🎉"
+          assets: README.md;LICENSE|text/plain;
+          github_token: ${{ github.token }}
+
+      - name: It should edit release name & new asset test.yml 
+        uses: ./ # Uses the action in the root directory
+        with:
+          mode: update
+          isPrerelease: true
+          releaseId: ${{ steps.test_create.outputs.releaseId }}
+          release_name: Testing edit of a release
+          assets: .github/workflows/test.yml
+          github_token: ${{ github.token }}
+
+      - name: It should download assets README.md, LICENCE, test.yml from Test release 
+        uses: ./ # Uses the action in the root directory
+        with:
+          tag_name: ${{ env.tag_for_tests }}
+          assets: README.md|dowloaded_README.md;LICENSE|dowloaded_LICENSE;test.yml|dowloaded_test.yml
+          github_token: ${{ github.token }}
+      - name: Confirm that files are correct
+        run: |
+          if [ "$(cat dowloaded_README.md)" != "$(cat README.md)" ]; then exit 1; fi
+          if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
+          if [ "$(cat dowloaded_test.yml)" != "$(cat .github/workflows/test.yml)" ]; then exit 1; fi
+
+      - name: It should delete release with tag Test 
+        uses: ./ # Uses the action in the root directory
+        with:
+          mode: delete
+          tag_name: ${{ env.tag_for_tests }}
+          github_token: ${{ github.token }}

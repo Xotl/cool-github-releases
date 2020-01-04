@@ -11,6 +11,15 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Generate dist folder & files",
+            "type": "shell",
+            "command": "docker build --target builder -t gh-action-builder . && docker run --rm -it -v ${PWD}/dist/:/usr/src/app/dist gh-action-builder",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

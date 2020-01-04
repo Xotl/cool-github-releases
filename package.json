@@ -1,6 +1,6 @@
 {
   "name": "cool-github-releases",
-  "version": "0.1.4",
+  "version": "1.0.0",
   "description": "Download/Uploads Releases - A more complete action for Github releases",
   "keywords": [
     "Github",
@@ -21,10 +21,11 @@
     "start": "node src/index.js",
     "debug": "export $(grep -v '^#' .env | xargs) && node --inspect-brk=0.0.0.0:9229 --unhandled-rejections=strict src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ncc build src/index.js -o dist"
+    "build": "ncc build src/index.js -m -C -o dist"
   },
   "dependencies": {
     "@actions/core": "^1.2.0",
-    "@actions/github": "^2.0.0"
+    "@actions/github": "^2.0.0",
+    "mime-types": "^2.1.25"
   }
 }
