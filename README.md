@@ -1,9 +1,7 @@
 ![Test status badge](https://github.com/Xotl/cool-github-releases/workflows/Test%20action%20modes/badge.svg?branch=master)
 
 # The Cool GH Releases action
-
 > Download/Uploads Releases Assets - A more complete action for Github releases
-
 
 
 ## Usage
@@ -22,10 +20,10 @@ A common use is to create releases or to get assets from a release, here are som
 ```
 
 Let's see what the options means:
-> **mode** - Indicates that we want to download assets. If no mode is specified, default value is `download`.
-> **tag_name** - Indicates that we want to download from a release with the tag `v3.0.0`.
-> **assets** - Indicates that we want the asset with the name `README.md` to be downloaded at the current working directory. 
-> **github_token** - A valid github token. For releases you can use the one created for the workflow.
+> **mode** - Indicates that we want to download assets. If no mode is specified, default value is `download`.  
+> **tag_name** - Indicates that we want to download from a release with the tag `v3.0.0`.  
+> **assets** - Indicates that we want the asset with the name `README.md` to be downloaded at the current working directory.  
+> **github_token** - A valid github token. For releases you can use the one created for the workflow.  
 
 Here's another example:
 ```yaml
@@ -35,10 +33,10 @@ Here's another example:
           assets: README.md;LICENSE|myFolder/myLicense.txt
           github_token: ${{ github.token }}
 ```
-> **mode** - Since the default value is `download` we don't need pass any mode if we want to dowload assets.
-> **tag_name** - If we don't specify a tag then the latest release will be used to download assets.
-> **assets** - Indicates that we want to download the assets with name `README.md` & `LICENSE` in that release, but the asset `LICENSE` will be downloaded at `myFolder/myLicense.txt`.
-> **github_token** - A valid github token. For releases you can use the one created for the workflow.
+> **mode** - Since the default value is `download` we don't need pass any mode if we want to dowload assets.  
+> **tag_name** - If we don't specify a tag then the latest release will be used to download assets.  
+> **assets** - Indicates that we want to download the assets with name `README.md` & `LICENSE` in that release, but the asset `LICENSE` will be downloaded at `myFolder/myLicense.txt`.  
+> **github_token** - A valid github token. For releases you can use the one created for the workflow.  
 
 ### Create a release and upload assets
 ```yaml
@@ -53,11 +51,11 @@ Here's another example:
 ```
 
 Let's see what the options means:
-> **mode** - Indicates that we want to create or edit a release. If a release with that tag already exists it will be updated.
-> **tag_name** - Indicates that we want to create a release with the tag `v3.0.0`. If a release with that tag already exists it will be updated instead.
-> **body_mrkdwn** - The description of the release will be a nice formated markdown: `### It works!\n Wow, it worked like a charm 🎉`.
-> **assets** - The file at `myFolder/README.md` will be uploaded to that release.
-> **github_token** - A valid github token. For releases you can use the one created for the workflow.
+> **mode** - Indicates that we want to create or edit a release. If a release with that tag already exists it will be updated.  
+> **tag_name** - Indicates that we want to create a release with the tag `v3.0.0`. If a release with that tag already exists it will be updated instead.  
+> **body_mrkdwn** - The description of the release will be a nice formated markdown: `### It works!\n Wow, it worked like a charm 🎉`.  
+> **assets** - The file at `myFolder/README.md` will be uploaded to that release.  
+> **github_token** - A valid github token. For releases you can use the one created for the workflow.  
 
 Here's another example:
 ```yaml
@@ -73,13 +71,13 @@ Here's another example:
           github_token: ${{ github.token }}
 ```
 
-> **mode** - Indicates that we want to create or edit a release. If a release with that tag already exists it will be updated.
-> **isPrerelease** - Our release will be flagged as a prerelease.
-> **tag_name** - Indicates that we want to create a release with the tag `v3.0.0`. If a release with that tag already exists it will be updated instead.
-> **release_name** - The release will have the name `My Release` instead of the tag.
-> **body_mrkdwn** - The description of the release will be a nice formated markdown: `### It works!\n Wow, it worked like a charm 🎉`.
-> **assets** - Will upload files `myFolder/README.md` & `LICENSE` to the release, but since the `LICENSE` file doesn't have an extension associated to a MIME type we need to specify it, in this case the MIME type is `text/plain`.
-> **github_token** - A valid github token. For releases you can use the one created for the workflow.
+> **mode** - Indicates that we want to create or edit a release. If a release with that tag already exists it will be updated.  
+> **isPrerelease** - Our release will be flagged as a prerelease.  
+> **tag_name** - Indicates that we want to create a release with the tag `v3.0.0`. If a release with that tag already exists it will be updated instead.  
+> **release_name** - The release will have the name `My Release` instead of the tag.  
+> **body_mrkdwn** - The description of the release will be a nice formated markdown: `### It works!\n Wow, it worked like a charm 🎉`.  
+> **assets** - Will upload files `myFolder/README.md` & `LICENSE` to the release, but since the `LICENSE` file doesn't have an extension associated to a MIME type we need to specify it, in this case the MIME type is `text/plain`.  
+> **github_token** - A valid github token. For releases you can use the one created for the workflow.  
 
 
 
@@ -91,12 +89,12 @@ All modes require a valid `github_token`, commonly you will can use the [one pro
 ### Mode: `download`
 Use this mode to download assets from an existant release.
 #### `assets` _(required)_
-> <asset_expresion>[;<asset_expresion>...;<asset_expresion>]
->
-> <asset_expresion> := <asset_name>
-> <asset_expresion> := <asset_name>|<file_path>
-**asset_name** - Name of the asset in the release. The that you will see under asset section in a release a Github page.
-**file_path** - A valid path where the asset will be downloaded.
+> <asset_expresion>[;<asset_expresion>...;<asset_expresion>]  
+>  
+> <asset_expresion> := <asset_name>  
+> <asset_expresion> := <asset_name>|<file_path>  
+**asset_name** - Name of the asset in the release. The that you will see under asset section in a release a Github page.  
+**file_path** - A valid path where the asset will be downloaded.  
 
 A string indicating the assets that you want to download. You can get one asset, multiple assets or even specify a download path.
 
@@ -130,21 +128,22 @@ assets: myfile.zip|myFolder/myfile.zip;cat.png;logo.svg|myFolder/something.svg
 ```
 #### `releaseId`
 You can provide a release id instead of a tag. If you pass `releaseId` the input `tag_name` will be ignored.
-
 **Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
+
 #### `tag_name`
 The tag of a release. If `releaseId` is provided then this value will be ignored.
 **Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
 
 ### Mode: `update`
 Use this mode to create/edit releases. Also this mode allows you to upload assets to the release.
+
 #### `assets`
-> <file_expresion>[;<file_expresion>...;<file_expresion>]
->
-> <file_expresion> := <file_path>
-> <file_expresion> := <file_path>|<mime_type>
-**file_path** - Path where the file is located.
-**mime_type** - A valid MIME type of the file that will be uploaded.
+> <file_expresion>[;<file_expresion>...;<file_expresion>]  
+>  
+> <file_expresion> := <file_path>  
+> <file_expresion> := <file_path>|<mime_type>  
+**file_path** - Path where the file is located.  
+**mime_type** - A valid MIME type of the file that will be uploaded.  
 
 A string indicating the path of the file(s) that you want to upload. You can upload one or multiple files by using the character `;` as separator.
 
