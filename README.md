@@ -265,4 +265,4 @@ Tag associated to the release that you want to delete.
 <br/>
 
 ### Thanks fo using it! 😊
-Find something odd or not working properly?, please create an issue with the details. 
+Find something odd or not working properly?, please [create an issue](https://github.com/Xotl/cool-github-releases/issues/new) with the details. 
