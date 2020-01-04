@@ -86,7 +86,7 @@ Here's another example:
 > **tag_name** - Indicates that we want to create a release with the tag `v3.0.0`. If a release with that tag already exists it will be updated instead.  
 > **release_name** - The release will have the name `My Release` instead of the tag.  
 > **body_mrkdwn** - The description of the release will be a nice formated markdown: `### It works!\n Wow, it worked like a charm 🎉`.  
-> **assets** - Will upload files `myFolder/README.md` & `LICENSE` to the release, but since the `LICENSE` file doesn't have an extension associated to a MIME type we need to specify it, in this case the MIME type is `text/plain`.  
+> **assets** - Will upload files `myFolder/README.md` & `LICENSE` to the release, but since the `LICENSE` file doesn't have an extension associated to a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) we need to specify it, in this case the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) is `text/plain`.  
 > **github_token** - A valid github token. For releases you can use the one created for the workflow.  
 
 <br/>
@@ -98,7 +98,7 @@ Here's another example:
 ## Reference
 The required inputs will vary depending on the selected `mode`. There are only 3 valid values: `download`, `update`, `delete`.
 
-All modes require a valid `github_token`, commonly you will can use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions erro message you will need to provide a token with a more elevated privilages.
+All modes require a valid `github_token`, commonly you can use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions error messages you will need to provide a token with more elevated privilages.
 
 <br/>
 
@@ -165,13 +165,13 @@ Use this mode to create/edit releases. Also this mode allows you to upload asset
 > <file_expresion> := <file_path>|<mime_type>
 
 * **file_path** - Path where the file is located.  
-* **mime_type** - A valid MIME type of the file that will be uploaded.  
+* **mime_type** - A valid [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the file that will be uploaded.  
 
 A string indicating the path of the file(s) that you want to upload. You can upload one or multiple files by using the character `;` as separator.
 
-Since the Github Api requires to indicate the MIME type of each file you want to upload, the action will try to infer the MIME type based on the extension (it uses [mime-types](https://www.npmjs.com/package/mime-types)'s lookup method). If the file has no extension or the extension cannot be associated to just one MIME type then you need to speficy the MIME type.
+Since the Github Api requires to indicate the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of each file you want to upload, the action will try to infer the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) based on the extension (it uses [mime-types](https://www.npmjs.com/package/mime-types)'s lookup method). If the file has no extension or the extension cannot be associated to just one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) then you need to speficy the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types).
 
-To specify a MIME type you need to use the character `|` after the a file path. 
+To specify a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) you need to use the character `|` after the a file path. 
 
 Check some examples:
 ##### Single file
@@ -180,7 +180,7 @@ Check some examples:
 # The MIME type type will be inferred.
 assets: README.md
 ```
-##### Single file with MIME type
+##### Single file with [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
 ```yaml
 # Will upload file LICENSE but since it has no extension we specify the MIME type as 'text/plain'
 assets: LICENSE|text/plain
@@ -191,7 +191,7 @@ assets: LICENSE|text/plain
 # the current working directory 
 assets: README.md;myfile.zip;cat.png
 ```
-##### Multiple files with different MIME types
+##### Multiple files with different [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
 ```yaml
 # Will upload 3 files:
 #     - File LICENSE inside 'myFolder/' folder using the MIME type 'text/plain'
