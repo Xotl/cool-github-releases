@@ -52,10 +52,10 @@ jobs:
         run: |
           npm version | grep "cool-github-releases" | cut -d ':' -f2 | cut -d \' -f2
           npm --no-git-tag-version version patch
-          NEW_VERSION=$(npm version | grep "cool-github-releases" | cut -d ':' -f2 | cut -d \' -f2)
 
       - name: Push tags & files back to repo
         run: |
+          NEW_VERSION=$(npm version | grep "cool-github-releases" | cut -d ':' -f2 | cut -d \' -f2)
           git config user.name "github"
           git config user.email "github@users.noreply.github.com"
           git add .
