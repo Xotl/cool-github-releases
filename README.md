@@ -88,11 +88,20 @@ The required inputs will vary depending on the selected `mode`. There are only 3
 
 All modes require a valid `github_token`, commonly you will can use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions erro message you will need to provide a token with a more elevated privilages.
 
-### `download` mode
+### Mode: `download`
+Use this mode to download assets from an existant release.
 #### `assets` _(required)_
-A string indicating the asset names that you want to download. You can get one asset, multiple assets or even specify a download path.
+> <asset_expresion>[;<asset_expresion>...;<asset_expresion>]
+>
+> <asset_expresion> := <asset_name>
+> <asset_expresion> := <asset_name>|<file_path>
+**asset_name** - Name of the asset in the release. The that you will see under asset section in a release a Github page.
+**file_path** - A valid path where the asset will be downloaded.
+
+A string indicating the assets that you want to download. You can get one asset, multiple assets or even specify a download path.
 
 The character `;` is the separator for different asset names and a `|` character after an asset name indicates the path in which the asset will be downloaded.
+
 
 Check some examples:
 ##### Single asset
@@ -127,21 +136,79 @@ You can provide a release id instead of a tag. If you pass `releaseId` the input
 The tag of a release. If `releaseId` is provided then this value will be ignored.
 **Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
 
-### `update` mode
+### Mode: `update`
+Use this mode to create/edit releases. Also this mode allows you to upload assets to the release.
 #### `assets`
+> <file_expresion>[;<file_expresion>...;<file_expresion>]
+>
+> <file_expresion> := <file_path>
+> <file_expresion> := <file_path>|<mime_type>
+**file_path** - Path where the file is located.
+**mime_type** - A valid MIME type of the file that will be uploaded.
+
+A string indicating the path of the file(s) that you want to upload. You can upload one or multiple files by using the character `;` as separator.
+
+Since the Github Api requires to indicate the MIME type of each file you want to upload, the action will try to infer the MIME type based on the extension (it uses [mime-types](https://www.npmjs.com/package/mime-types)'s lookup method). If the file has no extension or the extension cannot be associated to just one MIME type then you need to speficy the MIME type.
+
+To specify a MIME type you need to use the character `|` after the a file path. 
+
+Check some examples:
+##### Single file
+```yaml
+# Will upload file README.md that is located at the current working directory.
+# The MIME type type will be inferred.
+assets: README.md
+```
+##### Single file with MIME type
+```yaml
+# Will upload file LICENSE but since it has no extension we specify the MIME type as 'text/plain'
+assets: LICENSE|text/plain
+```
+##### Multiple files
+```yaml
+# Will upload assets README.md, myfile.zip and cat.png that are located at
+# the current working directory 
+assets: README.md;myfile.zip;cat.png
+```
+##### Multiple files with different MIME types
+```yaml
+# Will upload 3 files:
+#     - File LICENSE inside 'myFolder/' folder using the MIME type 'text/plain'
+#     - File myfile.zip at the current working directory with MIME type inferred
+#     - File myBinaryFile inside 'anotherFolder/' folder using the MIME type 'application/octet-stream'
+assets: myFolder/LICENSE|text/plain;myfile.zip;anotherFolder/myBinaryFile|application/octet-stream
+```
 #### `releaseId`
+_This value is required if no `tag_name` is provided._
+Id of the release that you want to edit. If `releaseId` then `tag_name` will be ignored.
+
 #### `tag_name`
+_This value is required if no `releaseId` is provided._
+
+Tag that will be used to edit/create the release. If a release with the tag name provided already exists then the release will be edited otherwise it will create a release associated to that tag.
+
+While creating a release, if the provided tag doesn't exists then it will create the tag too.
 #### `release_name`
+Indicates the name of the release. If this value is not provided then the value of `tag_name` will be used instead.
+
 #### `body_mrkdwn`
+Description that you want for your release. This can be mardown syntax. Defualt value is `Release based on tag **${tag_name}**. Enjoy! 🎉`
+
 #### `isDraft`
+Set this value to `true` if you want this release to be flagged as a draft.
+**Note:** _a draft release won't generate any tags._
+
 #### `isPrerelease`
+Set this value to `true` if you want this release to be flagged as a prerelease.
 
 
-### `delete` mode
-#### `assets`
+### Mode: `delete`
+Deletes a release by tag or id.
+
 #### `releaseId`
+_This value is required if no `tag_name` is provided._
+Id of the release that you want to delete. If `releaseId` then `tag_name` will be ignored.
+
 #### `tag_name`
-#### `release_name`
-#### `body_mrkdwn`
-#### `isDraft`
-#### `isPrerelease`
+_This value is required if no `releaseId` is provided._
+Tag associated to the release that you want to delete.

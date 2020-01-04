@@ -47,7 +47,8 @@ jobs:
         with:
           name: dist
 
-      - name: It should create a release with assets README.md and LICENCE 
+      - name: It should create a release with assets README.md and LICENCE
+        id: test_create
         uses: ./ # Uses the action in the root directory
         with:
           mode: update
@@ -56,6 +57,16 @@ jobs:
           release_name: Testing release action
           body_mrkdwn: "### It works!\n Wow, it worked like a charm 🎉"
           assets: README.md;LICENSE|text/plain;
+          github_token: ${{ github.token }}
+
+      - name: It should edit release name & new asset test.yml 
+        uses: ./ # Uses the action in the root directory
+        with:
+          mode: update
+          isPrerelease: true
+          releaseId: ${{ steps.test_create.outputs.releaseId }}
+          release_name: Testing edit of a release
+          assets: .github/workflows/test.yml
           github_token: ${{ github.token }}
   test-download:
     runs-on: ubuntu-latest

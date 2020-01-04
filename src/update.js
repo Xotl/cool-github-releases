@@ -98,15 +98,11 @@ module.exports = async (octokit, context) => {
     const assetsInput = Core.getInput('assets')
 
 
-    let name = Core.getInput('release_name')
-    if (!name) {
-        name = tagName
-    }
-
-    let body = Core.getInput('body_mrkdwn')
-    if (!body) {
-        body = `Release based on tag **${tagName}**. Enjoy! 🎉`
-    }
+    // If string is empty then we change value to 'undefined' so 
+    // octokit won't pass those values as parameters 
+    let name = Core.getInput('release_name') || undefined
+    let body = Core.getInput('body_mrkdwn') || undefined
+    
 
     // Validate files before trying anything with the Github Api
     let fileList
@@ -121,15 +117,15 @@ module.exports = async (octokit, context) => {
         }
     }
 
+    // Check if a release can be retrieved, if we found something means we will edit it
+    const [foundRelease] = await findRelease(octokit, context, releaseId, tagName)
+
     const opts = {
         ...context, body, name,
         tag_name: tagName,
         draft: isDraft === 'true',
         prerelease: isPrerelease === 'true',
     }
-
-    // Check if a release can be retrieved, if we found something means we will edit it
-    const [foundRelease] = await findRelease(octokit, context, releaseId, tagName)
 
     // Create/Update the release values
     let releaseObj
@@ -138,12 +134,29 @@ module.exports = async (octokit, context) => {
             releaseObj = await editRelease(octokit, opts, foundRelease.id)
             console.log(`Release '${releaseId || tagName}' edited succesfully!`)
         } else {
+            if (!name) {
+                opts.name = tagName
+            }
+
+            if (!body) {
+                opts.body = `Release based on tag **${tagName}**. Enjoy! 🎉`
+            }
+
+            const opts = {
+                ...context, body, name,
+                tag_name: tagName,
+                draft: isDraft === 'true',
+                prerelease: isPrerelease === 'true',
+            }
             releaseObj = (await octokit.repos.createRelease(opts)).data
             console.log(`Release created with tag ${tagName}!`)
         }
     } catch (err) {
         return Core.setFailed(`Failed while updating/creating release: ${err.message}`)
     }
+
+    // Sets the output of this action
+    Core.setOutput('releaseId', releaseObj.id);
 
     if (!Array.isArray(fileList) || fileList.length === 0) {
         console.log('Finishing without uploding any assets since no assets were specified.')
