@@ -31,7 +31,7 @@ jobs:
         with:
           name: dist
           path: ./new-dist/
-  test-update:
+  tests:
     runs-on: ubuntu-latest
     name: Test action with update mode
     needs: build
@@ -68,21 +68,6 @@ jobs:
           release_name: Testing edit of a release
           assets: .github/workflows/test.yml
           github_token: ${{ github.token }}
-  test-download:
-    runs-on: ubuntu-latest
-    name: Test action with download mode
-    needs: test-update
-    steps:
-      - name: Checkout # To use this repository's private action, you must check out the repository
-        uses: actions/checkout@v1 
-
-      - name: Delete old dist
-        run: rm -rf dist
-
-      - name: Download dist from build job
-        uses: actions/download-artifact@v1
-        with:
-          name: dist
 
       - name: It should download assets README.md, LICENCE, test.yml from Test release 
         uses: ./ # Uses the action in the root directory
@@ -95,21 +80,6 @@ jobs:
           if [ "$(cat dowloaded_README.md)" != "$(cat README.md)" ]; then exit 1; fi
           if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
           if [ "$(cat dowloaded_test.yml)" != "$(cat .github/workflows/test.yml)" ]; then exit 1; fi
-  test-delete:
-    runs-on: ubuntu-latest
-    name: Test action with delete mode
-    needs: test-download
-    steps:
-      - name: Checkout # To use this repository's private action, you must check out the repository
-        uses: actions/checkout@v1 
-
-      - name: Delete old dist
-        run: rm -rf dist
-
-      - name: Download dist from prev job
-        uses: actions/download-artifact@v1
-        with:
-          name: dist
 
       - name: It should delete release with tag Test 
         uses: ./ # Uses the action in the root directory
