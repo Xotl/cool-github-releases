@@ -1,0 +1,7 @@
+name: 'Check suite'
+on:
+  check_suite:
+    types: [completed]
+
+env:
+  THE_GITHUB_CONTEXT: ${{ toJson(github) }}
