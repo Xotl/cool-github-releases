@@ -21,7 +21,7 @@ A common use is to create releases or to get assets from a release, here are som
 ### Download assets from a release
 ```yaml
       - name: Download asset README.md from release with tag v3.0.0 
-        uses: Xotl/cool-github-releases@1.0
+        uses: Xotl/cool-github-releases@v1
         with:
           mode: download
           tag_name: v3.0.0
@@ -38,7 +38,7 @@ Let's see what the options means:
 Here's another example:
 ```yaml
       - name: Download assets README.md & LICENCE from release with tag A-fancy-tag 
-        uses: Xotl/cool-github-releases@1.0
+        uses: Xotl/cool-github-releases@v1
         with:
           assets: README.md;LICENSE|myFolder/myLicense.txt
           github_token: ${{ github.token }}
@@ -51,7 +51,7 @@ Here's another example:
 ### Create a release and upload assets
 ```yaml
       - name: It should create a release with assets README.md and LICENCE 
-        uses: Xotl/cool-github-releases@1.0
+        uses: Xotl/cool-github-releases@v1
         with:
           mode: update
           tag_name: v3.0.0
@@ -70,7 +70,7 @@ Let's see what the options means:
 Here's another example:
 ```yaml
       - name: It should create a release with assets README.md and LICENCE 
-        uses: Xotl/cool-github-releases@1.0
+        uses: Xotl/cool-github-releases@v1
         with:
           mode: update
           isPrerelease: true
@@ -231,7 +231,7 @@ Example:
 ```yaml
       - name: It should create a release with assets README.md and LICENCE
         id: hello
-        uses: Xotl/cool-github-releases@1.0
+        uses: Xotl/cool-github-releases@v1
         with:
           mode: update
           tag_name: v3.2.1
