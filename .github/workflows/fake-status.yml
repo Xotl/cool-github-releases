@@ -1,0 +1,29 @@
+name: 'Fake status'
+on:
+  push
+
+jobs:
+  something:
+    name: 'some job'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Post status
+        env:
+            AUTH_HEADER: "Authorization: token ${{ github.token }}"
+            ASSET_URL: "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}"
+            DATA: >- 
+              {
+                "state": "success",
+                "target_url": "https://example.com/build/status",
+                "description": "The build succeeded!",
+                "context": "continuous-integration/jenkins"
+              }
+        run: |
+          curl \
+            -L \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -H "${{ env.AUTH_HEADER }}" \
+            -d '${{ env.DATA }}' \
+            "${{ env.ASSET_URL }}"

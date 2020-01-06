@@ -1,4 +1,4 @@
-name: 'Check suite'
+name: 'Check status data'
 on:
   status
 
