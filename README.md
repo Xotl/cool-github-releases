@@ -1,4 +1,4 @@
-![Test status badge](https://github.com/Xotl/cool-github-releases/workflows/Test%20action%20modes/badge.svg?branch=master)
+![Test status badge][]
 
 # The Cool GH Releases action
 > Download/Upload release Assets - A more complete action for Github releases
@@ -8,9 +8,9 @@ Content
   * [Download assets from a release](#download-assets-from-a-release)
   * [Create a release and upload assets](#create-a-release-and-upload-assets)
 * [Reference](#reference)
-  * [Download mode](#mode-download)
-  * [Update mode](#mode-update)
-  * [Delete mode](#mode-delete)
+  * [Download mode](#mode-download-since-v107)
+  * [Update mode](#mode-update-since-v107)
+  * [Delete mode](#mode-delete-since-v107)
 
 <br/>
 
@@ -86,7 +86,7 @@ Here's another example:
 > **tag_name** - Indicates that we want to create a release with the tag `v3.0.0`. If a release with that tag already exists it will be updated instead.  
 > **release_name** - The release will have the name `My Release` instead of the tag.  
 > **body_mrkdwn** - The description of the release will be a nice formated markdown: `### It works!\n Wow, it worked like a charm 🎉`.  
-> **assets** - Will upload files `myFolder/README.md` & `LICENSE` to the release, but since the `LICENSE` file doesn't have an extension associated to a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) we need to specify it, in this case the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) is `text/plain`.  
+> **assets** - Will upload files `myFolder/README.md` & `LICENSE` to the release, but since the `LICENSE` file doesn't have an extension associated to a [MIME type][] we need to specify it, in this case the [MIME type][] is `text/plain`.  
 > **github_token** - A valid github token. For releases you can use the one created for the workflow.  
 
 <br/>
@@ -101,7 +101,7 @@ The required inputs will vary depending on the selected `mode`.
 There are only 3 valid values: `download`, `update`, `delete`. If no `mode` is provided then it will use the default value (default is `download`).
 
 
-All modes require a valid `github_token`, commonly you can use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions error messages you will need to provide a token with more elevated privileges.
+All modes require a valid `github_token`, commonly you can use the [one provided in the environment for your workflow][github_token]. In case you get some permissions error messages you will need to provide a token with more elevated privileges.
 
 <br/>
 
@@ -110,7 +110,7 @@ All modes require a valid `github_token`, commonly you can use the [one provided
 
 Use this mode to download assets from an existant release. 
 
-### Inputs for this mode:
+### Inputs:
 
 * ### `assets` _(required)_ <sup>since v1.0.7</sup>
   > <asset_expresion>[;<asset_expresion>...;<asset_expresion>]  
@@ -175,13 +175,13 @@ Since `v1.1.0` if you're going to edit a release and an asset name in that relea
     > <file_expresion> := <file_path>  
     > <file_expresion> := <file_path>|<mime_type>
     > * **file_path** - Path where the file is located.  
-    > * **mime_type** - A valid [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the file that will be uploaded.  
+    > * **mime_type** - A valid [MIME type][] of the file that will be uploaded.  
 
     A string indicating the path of the file(s) that you want to upload. You can upload one or multiple files by using the character `;` as separator.
 
-    Since the [Github Api](https://developer.github.com/v3/repos/releases/#upload-a-release-asset) requires to indicate the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of each file you want to upload, the action will try to infer the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) based on the extension (it uses [mime-types](https://www.npmjs.com/package/mime-types)'s lookup method). If the file has no extension or the extension cannot be associated to just one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) then you need to speficy a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types).
+    Since the [Github Api](https://developer.github.com/v3/repos/releases/#upload-a-release-asset) requires to indicate the [MIME type][] of each file you want to upload, the action will try to infer the [MIME type][] based on the extension (it uses [mime-types](https://www.npmjs.com/package/mime-types)'s lookup method). If the file has no extension or the extension cannot be associated to just one [MIME type][] then you need to speficy a [MIME type][].
 
-    To specify a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) you need to use the character `|` after the file path. 
+    To specify a [MIME type][] you need to use the character `|` after the file path. 
 
     #### Examples:
     * Single file
@@ -190,7 +190,7 @@ Since `v1.1.0` if you're going to edit a release and an asset name in that relea
       # The MIME type will be inferred.
       assets: README.md
       ```
-      Single file with [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
+      Single file with [MIME type][]
       ```yaml
       # Will upload file LICENSE but since it has no extension we specify the MIME type as 'text/plain'
       assets: LICENSE|text/plain
@@ -201,7 +201,7 @@ Since `v1.1.0` if you're going to edit a release and an asset name in that relea
       # the current working directory 
       assets: README.md;myfile.zip;cat.png
       ```
-    * Multiple files with different [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
+    * Multiple files with different [MIME type][]
       ```yaml
       # Will upload 3 files:
       #     - File LICENSE inside 'myFolder/' folder using the MIME type 'text/plain'
@@ -281,3 +281,8 @@ Deletes a release by tag or id.
 
 ## Thanks fo using it! 😊
 Find something odd or not working properly?, please [create an issue](https://github.com/Xotl/cool-github-releases/issues/new) with the details. 
+
+
+[Test status badge]: https://github.com/Xotl/cool-github-releases/workflows/Test%20action%20modes/badge.svg?branch=master "Test status badge"
+[MIME type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types "MIME Types"
+[github_token]: https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token "Authenticating with the github_token"
