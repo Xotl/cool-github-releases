@@ -1,6 +1,5 @@
 name: 'Check status data'
-on:
-  status
+on: status
 
 env:
   THE_GITHUB_CONTEXT: ${{ toJson(github) }}
