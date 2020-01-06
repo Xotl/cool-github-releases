@@ -209,29 +209,29 @@ Since `v1.1.0` if you're going to edit a release and an asset name in that relea
       #     - File myBinaryFile inside 'anotherFolder/' folder using the MIME type 'application/octet-stream'
       assets: myFolder/LICENSE|text/plain;myfile.zip;anotherFolder/myBinaryFile|application/octet-stream
       ```
-    * ### `releaseId` <sup>since v1.0.7</sup>
-      ⚠ _This value is required if no `tag_name` is provided._
+  * ### `releaseId` <sup>since v1.0.7</sup>
+    ⚠ _This value is required if no `tag_name` is provided._
 
-      Id of the release that you want to edit. If `releaseId` then `tag_name` will be ignored.
+    Id of the release that you want to edit. If `releaseId` then `tag_name` will be ignored.
 
-    * ### `tag_name` <sup>since v1.0.7</sup>
-      ⚠  _This value is required if no `releaseId` is provided._
+  * ### `tag_name` <sup>since v1.0.7</sup>
+    ⚠  _This value is required if no `releaseId` is provided._
 
-      Tag that will be used to edit/create the release. If a release with the tag name provided already exists then the release will be edited otherwise it will create a release associated to that tag.
+    Tag that will be used to edit/create the release. If a release with the tag name provided already exists then the release will be edited otherwise it will create a release associated to that tag.
 
-      While creating a release, if the provided tag doesn't exists then it will create the tag too.
-    * ### `release_name` <sup>since v1.0.7</sup>
-      Indicates the name of the release. If this value is not provided then the value of `tag_name` will be used instead.
+    While creating a release, if the provided tag doesn't exists then it will create the tag too.
+  * ### `release_name` <sup>since v1.0.7</sup>
+    Indicates the name of the release. If this value is not provided then the value of `tag_name` will be used instead.
 
-    * ### `body_mrkdwn` <sup>since v1.0.7</sup>
-      Description that you want for your release. This can be mardown syntax. Defualt value is `Release based on tag **${tag_name}**. Enjoy! 🎉`
+  * ### `body_mrkdwn` <sup>since v1.0.7</sup>
+    Description that you want for your release. This can be mardown syntax. Defualt value is `Release based on tag **${tag_name}**. Enjoy! 🎉`
 
-    * ### `isDraft` <sup>since v1.0.7</sup>
-      Set this value to `true` if you want this release to be flagged as a draft.  
-      **Note:** _a draft release won't generate any tags._
+  * ### `isDraft` <sup>since v1.0.7</sup>
+    Set this value to `true` if you want this release to be flagged as a draft.  
+    **Note:** _a draft release won't generate any tags._
 
-    * ### `isPrerelease` <sup>since v1.0.7</sup>
-      Set this value to `true` if you want this release to be flagged as a prerelease.
+  * ### `isPrerelease` <sup>since v1.0.7</sup>
+    Set this value to `true` if you want this release to be flagged as a prerelease.
 
 
 ### Outputs
