@@ -176,11 +176,11 @@ module.exports = async (octokit, context) => {
         )
 
         if (existantAssets.length > 0) {
-            Core.warning('Some of the specified asset names already exists in the release, those assets will be deleted so the new ones can be uploaded.')
+            console.log('Some of the specified asset names already exists in the release, those assets will be deleted so the new ones can be uploaded.')
             try {
                 console.log(`Started the deletion of assets: \n${existantAssets.map(a => a.name).join('\n')}`)
                 await deleteAssets(octokit, context, existantAssets)
-                console.log('Finished the deletion of existant assets succesfully!')
+                console.log(`Finished the deletion of ${existantAssets.length} existant asset(s) without any error!`)
             }
             catch (err) {
                 console.error(err.message)
