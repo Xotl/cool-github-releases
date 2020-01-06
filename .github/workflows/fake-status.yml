@@ -7,7 +7,7 @@ jobs:
     name: 'some job'
     runs-on: ubuntu-latest
     env:
-      AUTH_HEADER: "Authorization: token ${{ github.token }}"
+      AUTH_HEADER: "Authorization: token ${{ secrets.GITHUB_OAUTH_TOKEN }}"
       ASSET_URL: "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}"
       DATA: >- 
         {
