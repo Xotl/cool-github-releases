@@ -92,8 +92,6 @@ Here's another example:
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
 
 # Reference
 The required inputs will vary depending on the selected `mode`.
