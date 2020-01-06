@@ -35,6 +35,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Test action modes
     needs: build
+    env:
+      TEST_TEXT: "Asset replaced correctly"
+
     steps:
       - name: Checkout # To use this repository's private action, you must check out the repository
         uses: actions/checkout@v2
@@ -46,6 +49,10 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: dist
+
+      - name: Prepare files for tests
+        run: |
+          echo "${{env.TEST_TEXT}}" > "./src/README.md"
 
       - name: It should create a release with assets README.md and LICENCE
         id: test_create
@@ -59,14 +66,14 @@ jobs:
           assets: README.md;LICENSE|text/plain;
           github_token: ${{ github.token }}
 
-      - name: It should edit release name & new asset test.yml 
+      - name: It should edit release name, add asset test.yml & replace README.md with a new one 
         uses: ./ # Uses the action in the root directory
         with:
           mode: update
           isPrerelease: true
           releaseId: ${{ steps.test_create.outputs.releaseId }}
           release_name: Testing edit of a release
-          assets: .github/workflows/test.yml
+          assets: .github/workflows/test.yml;src/README.md
           github_token: ${{ github.token }}
 
       - name: It should download assets README.md, LICENCE, test.yml from Test release 
@@ -77,7 +84,7 @@ jobs:
           github_token: ${{ github.token }}
       - name: Confirm that files are correct
         run: |
-          if [ "$(cat dowloaded_README.md)" != "$(cat README.md)" ]; then exit 1; fi
+          if [ "$(cat dowloaded_README.md)" != "${{env.TEST_TEXT}}" ]; then exit 1; fi
           if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
           if [ "$(cat dowloaded_test.yml)" != "$(cat .github/workflows/test.yml)" ]; then exit 1; fi
 

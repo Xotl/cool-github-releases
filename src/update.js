@@ -18,6 +18,7 @@ const parseFilesStringIntoList = fileStr => splitAssetsString(fileStr).map(
 
         return {
             filename, extension,
+            fullFileName: extension ? `${filename}${extension}` : filename,
             filePath: Path.join(PWD, filePath), 
             mime: mime || Mime.lookup(extension)
         }
@@ -58,9 +59,8 @@ const getBufferFromFilePath = (filePath) => new Promise(
 )
 
 const uploadAssetToReleaseUrl = async (octokit, url, fileObj) => {
-    const { filePath, filename, mime, extension } = fileObj
+    const { filePath, fullFileName, mime } = fileObj
     const buffer = await getBufferFromFilePath(filePath)
-    const fullFileName = extension ? `${filename}${extension}` : `${filename}`
     try {
         await octokit.repos.uploadReleaseAsset({
             url, file: buffer,
@@ -77,6 +77,17 @@ const uploadAssetToReleaseUrl = async (octokit, url, fileObj) => {
     }
     console.log(`File '${fullFileName}' uploaded successfully.`)
 }
+
+const deleteAssets = async (octokit, context, assetsList) => Promise.all(
+    assetsList.map(
+        async ({id, name}) => {
+            await octokit.repos.deleteReleaseAsset({
+                ...context, asset_id: id
+            })
+            console.log(`Asset '${name}' with id '${id}' deleted successfully!`)
+        }
+    )
+)
 
 
 const editRelease = async (octokit, opts, release_id) => {
@@ -154,6 +165,28 @@ module.exports = async (octokit, context) => {
     if (!fileList) {
         console.log('Finishing without uploding any assets since no assets were specified.')
         return 
+    }
+
+    if (foundRelease) {
+        // Check if we need to update assets instead of just adding more
+        const existantAssets = releaseObj.assets.filter(
+            (asset) => fileList.find(
+                ({fullFileName}) => fullFileName === asset.name
+            )
+        )
+
+        if (existantAssets.length > 0) {
+            Core.warning('Some of the specified asset names already exists in the release, those assets will be deleted so the new ones can be uploaded.')
+            try {
+                console.log(`Started the deletion of assets: \n${existantAssets.map(a => a.name).join('\n')}`)
+                await deleteAssets(octokit, context, existantAssets)
+                console.log('Finished the deletion of existant assets succesfully!')
+            }
+            catch (err) {
+                console.error(err.message)
+                Core.warning('Some of the assets were not deleted, so your assets will no be up to date or with missing assets.')
+            }
+        }
     }
     
     // Upload assets
