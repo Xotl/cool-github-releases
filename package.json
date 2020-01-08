@@ -1,6 +1,6 @@
 {
   "name": "cool-github-releases",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Download/Uploads Releases - A more complete action for Github releases",
   "keywords": [
     "Github",
