@@ -40,10 +40,7 @@ async function main() {
     const githubToken = Core.getInput('github_token', { required: true })
     Core.setSecret(githubToken)// Ensure it is masked in logs, just in case we happen to log that
 
-    const { name:repo, owner: { name, login } } = github.context.payload.repository
     const octokit = new github.GitHub(githubToken)
-    const context = {repo, owner: name || login}
-
     await modeFn(octokit, context, githubToken)
 }
 
