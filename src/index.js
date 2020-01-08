@@ -11,7 +11,25 @@ const modeDict = {
     delete: deleteRelease,
 }
 
+const getContext = () => {
+    const repository = Core.getInput('repository') || process.env.GITHUB_REPOSITORY
+
+    if (typeof repository !== 'string') {
+        return null
+    }
+
+    const [owner, repo] = repository.split('/');
+    return {owner, repo}
+}
+
+
 async function main() {
+    const context =  getContext()
+
+    if (!context) {
+        return Core.setFailed('Error: Cannot get repository string.')
+    }
+
     const actionMode = Core.getInput('mode', { required: true })
     const modeFn = modeDict[actionMode]
 
