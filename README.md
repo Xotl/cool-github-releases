@@ -1,4 +1,4 @@
-![Test status badge](https://github.com/Xotl/cool-github-releases/workflows/Test%20action%20modes/badge.svg?branch=master)
+![Test status badge][]
 
 # The Cool GH Releases action
 > Download/Upload release Assets - A more complete action for Github releases
@@ -8,13 +8,13 @@ Content
   * [Download assets from a release](#download-assets-from-a-release)
   * [Create a release and upload assets](#create-a-release-and-upload-assets)
 * [Reference](#reference)
-  * [Download mode](#mode-download)
-  * [Update mode](#mode-update)
-  * [Delete mode](#mode-delete)
+  * [Download mode](#mode-download-since-v107)
+  * [Update mode](#mode-update-since-v107)
+  * [Delete mode](#mode-delete-since-v107)
 
 <br/>
 
-## Usage
+# Usage
 This action supports 3 modes: `download`, `update`, `delete`.
 A common use is to create releases or to get assets from a release, here are some examples:
 
@@ -86,183 +86,201 @@ Here's another example:
 > **tag_name** - Indicates that we want to create a release with the tag `v3.0.0`. If a release with that tag already exists it will be updated instead.  
 > **release_name** - The release will have the name `My Release` instead of the tag.  
 > **body_mrkdwn** - The description of the release will be a nice formated markdown: `### It works!\n Wow, it worked like a charm 🎉`.  
-> **assets** - Will upload files `myFolder/README.md` & `LICENSE` to the release, but since the `LICENSE` file doesn't have an extension associated to a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) we need to specify it, in this case the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) is `text/plain`.  
+> **assets** - Will upload files `myFolder/README.md` & `LICENSE` to the release, but since the `LICENSE` file doesn't have an extension associated to a [MIME type][] we need to specify it, in this case the [MIME type][] is `text/plain`.  
 > **github_token** - A valid github token. For releases you can use the one created for the workflow.  
 
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
 
-## Reference
-The required inputs will vary depending on the selected `mode`. There are only 3 valid values: `download`, `update`, `delete`.
+# Reference
+The required inputs will vary depending on the selected `mode`.
 
-All modes require a valid `github_token`, commonly you can use the [one provided in the environment for your workflow](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token). In case you get some permissions error messages you will need to provide a token with more elevated privileges.
-
-<br/>
-
-### Mode: `download`
-Use this mode to download assets from an existant release.
-#### `assets` _(required)_
-> <asset_expresion>[;<asset_expresion>...;<asset_expresion>]  
->  
-> <asset_expresion> := <asset_name>  
-> <asset_expresion> := <asset_name>|<file_path>  
-
-* **asset_name** - Name of the asset in the release that you will see under asset section in a release at the Github page.  
-* **file_path** - A valid path where the asset will be downloaded.  
-
-A string indicating the assets that you want to download. You can get one asset, multiple assets or even specify a download path.
-
-The character `;` is the separator for different asset names and a `|` character after an asset name indicates the path in which the asset will be downloaded.
+There are only 3 valid values: `download`, `update`, `delete`. If no `mode` is provided then it will use the default value (default is `download`).
 
 
-Check some examples:
-##### Single asset
-```yaml
-assets: README.md # Will download asset README.md at the current working directory
-```
-##### Single asset with different path
-```yaml
-assets: README.md|myFolder/README.md # Will download asset README.md at myFolder/README.md 
-```
-```yaml
-assets: README.md|myFolder/another_name.md # Will download asset README.md at myFolder/another_name.md 
-```
-##### Multiple assets
-```yaml
-# Will download assets README.md, myfile.zip and cat.png at the current working directory 
-assets: README.md;myfile.zip;cat.png
-```
-##### Multiple assets with different path/name
-```yaml
-# Will download 3 assets:
-#     - Asset with name myfile.zip will be downloaded at myFolder/myfile.zip
-#     - Asset with name cat.png will be downloaded at the current working directory
-#     - Asset with name logo.svg will be downloaded at myFolder/something.svg
-assets: myfile.zip|myFolder/myfile.zip;cat.png;logo.svg|myFolder/something.svg
-```
-#### `releaseId`
-You can provide a release id instead of a tag. If you pass `releaseId` the input `tag_name` will be ignored.  
-**Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
-
-#### `tag_name`
-The tag of a release. If `releaseId` is provided then this value will be ignored.  
-**Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
+All modes require a valid `github_token`, commonly you can use the [one provided in the environment for your workflow][github_token]. In case you get some permissions error messages you will need to provide a token with more elevated privileges.
 
 <br/>
+
+## Mode: `download` <sup>since v1.0.7</sup>
+⚠  _This is the default mode if no mode is specified._  
+
+Use this mode to download assets from an existant release. 
+
+### Inputs:
+
+* ### `assets` _(required)_ <sup>since v1.0.7</sup>
+  > <asset_expresion>[;<asset_expresion>...;<asset_expresion>]  
+  >   
+  > <asset_expresion> := <asset_name>  
+  > <asset_expresion> := <asset_name>|<file_path>  
+  > * **asset_name** - Name of the asset in the release that you will see under asset section in a release at the Github page.  
+  > * **file_path** - A valid path where the asset will be downloaded.  
+
+  A string indicating the assets that you want to download. You can get one asset, multiple assets or even specify a download path.
+
+  The character `;` is the separator for different asset names and a `|` character after an asset name indicates the path in which the asset will be downloaded.
+
+
+  #### Examples:
+  * Single asset:
+    ```yaml
+    assets: README.md # Will download asset README.md at the current working directory
+    ```
+  * Single asset with different path
+    ```yaml
+    assets: README.md|myFolder/README.md # Will download asset README.md at myFolder/README.md 
+    ```
+    ```yaml
+    assets: README.md|myFolder/another_name.md # Will download asset README.md at myFolder/another_name.md 
+    ```
+  * Multiple assets
+    ```yaml
+    # Will download assets README.md, myfile.zip and cat.png at the current working directory 
+    assets: README.md;myfile.zip;cat.png
+    ```
+  * Multiple assets with different path/name
+    ```yaml
+    # Will download 3 assets:
+    #     - Asset with name myfile.zip will be downloaded at myFolder/myfile.zip
+    #     - Asset with name cat.png will be downloaded at the current working directory
+    #     - Asset with name logo.svg will be downloaded at myFolder/something.svg
+    assets: myfile.zip|myFolder/myfile.zip;cat.png;logo.svg|myFolder/something.svg
+    ```
+* ### `releaseId` <sup>since v1.0.7</sup>
+  You can provide a release id instead of a tag. If you pass `releaseId` the input `tag_name` will be ignored.  
+  **Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
+
+* ### `tag_name` <sup>since v1.0.7</sup>
+  The tag of a release. If `releaseId` is provided then this value will be ignored.  
+  **Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
+
+<br/>
 <br/>
 <br/>
 
-### Mode: `update`
+## Mode: `update` <sup>since v1.0.7</sup>
 Use this mode to create/edit releases. Also this mode allows you to upload assets to the release.
 
-#### `assets`
-> <file_expresion>[;<file_expresion>...;<file_expresion>]  
->  
-> <file_expresion> := <file_path>  
-> <file_expresion> := <file_path>|<mime_type>
+Since `v1.1.0` if you're going to edit a release and an asset name in that release matches one of your assets specified via the `assets` input then the existant asset will be deleted from the release so the new asset can be uploaded. Basically replaces the old asset with the new one provided.
 
-* **file_path** - Path where the file is located.  
-* **mime_type** - A valid [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the file that will be uploaded.  
+### Inputs:
 
-A string indicating the path of the file(s) that you want to upload. You can upload one or multiple files by using the character `;` as separator.
+  * ### `assets` <sup>since v1.0.7</sup>
+    > <file_expresion>[;<file_expresion>...;<file_expresion>]  
+    >  
+    > <file_expresion> := <file_path>  
+    > <file_expresion> := <file_path>|<mime_type>
+    > * **file_path** - Path where the file is located.  
+    > * **mime_type** - A valid [MIME type][] of the file that will be uploaded.  
 
-Since the [Github Api](https://developer.github.com/v3/repos/releases/#upload-a-release-asset) requires to indicate the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of each file you want to upload, the action will try to infer the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) based on the extension (it uses [mime-types](https://www.npmjs.com/package/mime-types)'s lookup method). If the file has no extension or the extension cannot be associated to just one [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) then you need to speficy a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types).
+    A string indicating the path of the file(s) that you want to upload. You can upload one or multiple files by using the character `;` as separator.
 
-To specify a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) you need to use the character `|` after the file path. 
+    Since the [Github Api](https://developer.github.com/v3/repos/releases/#upload-a-release-asset) requires to indicate the [MIME type][] of each file you want to upload, the action will try to infer the [MIME type][] based on the extension (it uses [mime-types](https://www.npmjs.com/package/mime-types)'s lookup method). If the file has no extension or the extension cannot be associated to just one [MIME type][] then you need to speficy a [MIME type][].
 
-Check some examples:
-##### Single file
-```yaml
-# Will upload file README.md that is located at the current working directory.
-# The MIME type will be inferred.
-assets: README.md
-```
-##### Single file with [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
-```yaml
-# Will upload file LICENSE but since it has no extension we specify the MIME type as 'text/plain'
-assets: LICENSE|text/plain
-```
-##### Multiple files
-```yaml
-# Will upload assets README.md, myfile.zip and cat.png that are located at
-# the current working directory 
-assets: README.md;myfile.zip;cat.png
-```
-##### Multiple files with different [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
-```yaml
-# Will upload 3 files:
-#     - File LICENSE inside 'myFolder/' folder using the MIME type 'text/plain'
-#     - File myfile.zip at the current working directory with MIME type inferred
-#     - File myBinaryFile inside 'anotherFolder/' folder using the MIME type 'application/octet-stream'
-assets: myFolder/LICENSE|text/plain;myfile.zip;anotherFolder/myBinaryFile|application/octet-stream
-```
-#### `releaseId`
-⚠ _This value is required if no `tag_name` is provided._
+    To specify a [MIME type][] you need to use the character `|` after the file path. 
 
-Id of the release that you want to edit. If `releaseId` then `tag_name` will be ignored.
+    #### Examples:
+    * Single file
+      ```yaml
+      # Will upload file README.md that is located at the current working directory.
+      # The MIME type will be inferred.
+      assets: README.md
+      ```
+      Single file with [MIME type][]
+      ```yaml
+      # Will upload file LICENSE but since it has no extension we specify the MIME type as 'text/plain'
+      assets: LICENSE|text/plain
+      ```
+    * Multiple files
+      ```yaml
+      # Will upload assets README.md, myfile.zip and cat.png that are located at
+      # the current working directory 
+      assets: README.md;myfile.zip;cat.png
+      ```
+    * Multiple files with different [MIME type][]
+      ```yaml
+      # Will upload 3 files:
+      #     - File LICENSE inside 'myFolder/' folder using the MIME type 'text/plain'
+      #     - File myfile.zip at the current working directory with MIME type inferred
+      #     - File myBinaryFile inside 'anotherFolder/' folder using the MIME type 'application/octet-stream'
+      assets: myFolder/LICENSE|text/plain;myfile.zip;anotherFolder/myBinaryFile|application/octet-stream
+      ```
+  * ### `releaseId` <sup>since v1.0.7</sup>
+    ⚠ _This value is required if no `tag_name` is provided._
 
-#### `tag_name`
-⚠  _This value is required if no `releaseId` is provided._
+    Id of the release that you want to edit. If `releaseId` then `tag_name` will be ignored.
 
-Tag that will be used to edit/create the release. If a release with the tag name provided already exists then the release will be edited otherwise it will create a release associated to that tag.
+  * ### `tag_name` <sup>since v1.0.7</sup>
+    ⚠  _This value is required if no `releaseId` is provided._
 
-While creating a release, if the provided tag doesn't exists then it will create the tag too.
-#### `release_name`
-Indicates the name of the release. If this value is not provided then the value of `tag_name` will be used instead.
+    Tag that will be used to edit/create the release. If a release with the tag name provided already exists then the release will be edited otherwise it will create a release associated to that tag.
 
-#### `body_mrkdwn`
-Description that you want for your release. This can be mardown syntax. Defualt value is `Release based on tag **${tag_name}**. Enjoy! 🎉`
+    While creating a release, if the provided tag doesn't exists then it will create the tag too.
+  * ### `release_name` <sup>since v1.0.7</sup>
+    Indicates the name of the release. If this value is not provided then the value of `tag_name` will be used instead.
 
-#### `isDraft`
-Set this value to `true` if you want this release to be flagged as a draft.  
-**Note:** _a draft release won't generate any tags._
+  * ### `body_mrkdwn` <sup>since v1.0.7</sup>
+    Description that you want for your release. This can be mardown syntax. Defualt value is `Release based on tag **${tag_name}**. Enjoy! 🎉`
 
-#### `isPrerelease`
-Set this value to `true` if you want this release to be flagged as a prerelease.
+  * ### `isDraft` <sup>since v1.0.7</sup>
+    Set this value to `true` if you want this release to be flagged as a draft.  
+    **Note:** _a draft release won't generate any tags._
+
+  * ### `isPrerelease` <sup>since v1.0.7</sup>
+    Set this value to `true` if you want this release to be flagged as a prerelease.
 
 
-#### Outputs
-This is the only mode that outputs something outside the action. It will expose the id of the created/edited release using the name `releaseId`.
+### Outputs
+It will expose the id of the created/edited release using the name `releaseId`.
 
-Example:
-```yaml
-      - name: It should create a release with assets README.md and LICENCE
-        id: hello
-        uses: Xotl/cool-github-releases@v1
-        with:
-          mode: update
-          tag_name: v3.2.1
-          github_token: ${{ github.token }}
-        
-        # Use the output from the `hello` step
-        - name: Get the output releaseId
-          run: echo "The releaseId is ${{ steps.hello.outputs.releaseId }}"
-```
+  * ### `releaseId` <sup>since v1.0.7</sup>
+    It will expose the id of the created/edited release using the name `releaseId`.
+
+    Example:
+    ```yaml
+          - name: It should create a release with assets README.md and LICENCE
+            id: hello
+            uses: Xotl/cool-github-releases@v1
+            with:
+              mode: update
+              tag_name: v3.2.1
+              github_token: ${{ github.token }}
+            
+            # Use the output from the `hello` step
+            - name: Get the output releaseId
+              run: echo "The releaseId is ${{ steps.hello.outputs.releaseId }}"
+    ```
 
 <br/>
 <br/>
 <br/>
 
-### Mode: `delete`
+## Mode: `delete` <sup>since v1.0.7</sup>
 Deletes a release by tag or id.  
 **Note:** tag associated to that release won't be deleted.
 
-#### `releaseId`
-⚠  _This value is required if no `tag_name` is provided._
+### Inputs:
 
-Id of the release that you want to delete. If `releaseId` is provided then `tag_name` will be ignored.
+  * ### `releaseId` <sup>since v1.0.7</sup>
+    ⚠  _This value is required if no `tag_name` is provided._
 
-#### `tag_name`
-⚠  _This value is required if no `releaseId` is provided._
+    Id of the release that you want to delete. If `releaseId` is provided then `tag_name` will be ignored.
 
-Tag associated to the release that you want to delete.
+  * ### `tag_name` <sup>since v1.0.7</sup>
+    ⚠  _This value is required if no `releaseId` is provided._
+
+    Tag associated to the release that you want to delete.
 
 <br/>
 <br/>
 <br/>
 
-### Thanks fo using it! 😊
+## Thanks fo using it! 😊
 Find something odd or not working properly?, please [create an issue](https://github.com/Xotl/cool-github-releases/issues/new) with the details. 
+
+
+[Test status badge]: https://github.com/Xotl/cool-github-releases/workflows/Test%20action%20modes/badge.svg?branch=master "Test status badge"
+[MIME type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types "MIME Types"
+[github_token]: https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token "Authenticating with the github_token"
