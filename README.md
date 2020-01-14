@@ -163,7 +163,7 @@ Use this mode to download assets from an existant release.
 ## Mode: `update` <sup>since v1.0.7</sup>
 Use this mode to create/edit releases. Also this mode allows you to upload assets to the release.
 
-Since `v1.1.0` if you're going to edit a release and an asset name in that release matches one of your assets specified via the `assets` input then the existant asset will be deleted from the release so the new asset can be uploaded. Basically replaces the old asset with the new one provided.
+Since `v1.1.2` you have the option of replacing existing assets by setting `replace_assets` to `true`. With this option set, if you're going to edit a release and an asset name in that release matches one of your assets specified via the `assets` input then the existant asset will be deleted from the release so the new asset can be uploaded. Basically replaces the old asset with the new one provided. Without setting this option, the default behavior is for the action to fail if you try to upload assets that already exist.
 
 ### Inputs:
 
@@ -221,8 +221,11 @@ Since `v1.1.0` if you're going to edit a release and an asset name in that relea
   * ### `release_name` <sup>since v1.0.7</sup>
     Indicates the name of the release. If this value is not provided then the value of `tag_name` will be used instead.
 
+  * ### `initial_mrkdwn` <sup>since v1.1.2</sup>
+    Description that you want for your release, if the release does not already exist. This can be markdown syntax. Default value is the value of `body_mrkdwn` if that is also set, or `Release based on tag **${tag_name}**. Enjoy! 🎉` if neither is set.
+
   * ### `body_mrkdwn` <sup>since v1.0.7</sup>
-    Description that you want for your release. This can be mardown syntax. Defualt value is `Release based on tag **${tag_name}**. Enjoy! 🎉`
+    Description that you want for your release even if it already exists. This can be markdown syntax. If you omit this, an existing release description will not  be modified.
 
   * ### `isDraft` <sup>since v1.0.7</sup>
     Set this value to `true` if you want this release to be flagged as a draft.  
@@ -230,6 +233,9 @@ Since `v1.1.0` if you're going to edit a release and an asset name in that relea
 
   * ### `isPrerelease` <sup>since v1.0.7</sup>
     Set this value to `true` if you want this release to be flagged as a prerelease.
+
+  * ### `update_assets` <sup>since v1.1.2</sup>
+    Set this value to `true` if you want to be able to be able to replace assets that already exist in the release, otherwise they will be considered errors.
 
 
 ### Outputs
