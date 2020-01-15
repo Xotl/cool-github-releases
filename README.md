@@ -235,7 +235,7 @@ Since `v1.1.2` you have the option of replacing existing assets by setting `repl
     Set this value to `true` if you want this release to be flagged as a prerelease.
 
   * ### `update_assets` <sup>since v1.1.2</sup>
-    Set this value to `true` if you want to be able to be able to replace assets that already exist in the release, otherwise they will be considered errors.
+    Set this value to `true` if you want to be able to replace assets that already exist in the release, otherwise they will be considered errors.
 
 
 ### Outputs
