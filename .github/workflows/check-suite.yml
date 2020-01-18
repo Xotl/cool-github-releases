@@ -1,7 +1,5 @@
-name: 'Check suite'
-on:
-  check_suite:
-    types: [rerequested, completed]
+name: 'Status event test'
+on: status
 
 env:
   THE_GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -12,5 +10,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print context
+      - name: Print event context
         run: echo "Wow, such debugging ${{ toJson(github.event) }}"
