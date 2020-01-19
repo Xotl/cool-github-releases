@@ -94,3 +94,16 @@ jobs:
           mode: delete
           tag_name: ${{ env.tag_for_tests }}
           github_token: ${{ github.token }}
+
+      - name: Trigger status event if master branch
+        if: env.GITHUB_REF === "refs/heads/master"
+        run: >-
+          curl -L -X POST 
+          -H "Content-Type: application/json"
+          -H "Authorization: token ${{ secrets.GITHUB_OAUTH_TOKEN }}"
+          -d '{
+            "state": "success",
+            "target_url": "https://github.com/Xotl/cool-github-releases/actions?query=workflow%3A\"Test+action+modes\"",
+            "description": "All tests passed", "context": "test-suite/pass"
+          }'
+          "https://api.github.com/repos/${{ github.repository }}/statuses/${{ env.GITHUB_SHA }}"
