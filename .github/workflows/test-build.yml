@@ -1,10 +1,7 @@
-name: 'Test action modes'
+name: 'Test before build'
 on:
   push: 
     branches: 
-      - master
-  pull_request:
-    branches:
       - master
 
 env:
@@ -103,7 +100,7 @@ jobs:
           -H "Authorization: token ${{ secrets.GITHUB_OAUTH_TOKEN }}"
           -d '{
             "state": "success",
-            "target_url": "https://github.com/Xotl/cool-github-releases/actions?query=workflow%3A\"Test+action+modes\"",
+            "target_url": "https://github.com/${GITHUB_REPOSITORY}/actions?query=workflow%3A\"Test+action+modes\"",
             "description": "All tests passed", "context": "test-suite/pass"
           }'
-          "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}"
+          "https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}"
