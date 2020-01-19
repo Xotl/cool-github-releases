@@ -95,8 +95,15 @@ jobs:
           tag_name: ${{ env.tag_for_tests }}
           github_token: ${{ github.token }}
 
+  
+      - name: Logging
+        env: 
+          CONTEXT: ${{ toJson(github) }}
+          MY_REFS: ${{ env.GITHUB_REF }} 
+        run: echo "${{ env.MY_REFS }} "
+
       - name: Trigger status event if master branch
-        if: env.GITHUB_REF == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master'
         run: >-
           curl -L -X POST 
           -H "Content-Type: application/json"
