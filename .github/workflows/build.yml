@@ -1,19 +1,12 @@
 name: 'Master Code Updated'
-on:
-  push: 
-    branches: 
-      - master
-    paths-ignore:
-      - 'README.md'
-      - '.github/**'
-      - '.vscode/**'
+on: status
 
 jobs:
   build:
     name: 'Generate dist'
     runs-on: ubuntu-latest
 
-    if: github.event.head_commit.author.name != 'github'
+    if: github.event.context == 'test-suite/pass'
 
     steps:
       - uses: actions/checkout@v2
