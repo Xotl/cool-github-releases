@@ -96,7 +96,7 @@ jobs:
           github_token: ${{ github.token }}
 
       - name: Trigger status event if master branch
-        if: env.GITHUB_REF === "refs/heads/master"
+        if: env.GITHUB_REF == "refs/heads/master"
         run: >-
           curl -L -X POST 
           -H "Content-Type: application/json"
