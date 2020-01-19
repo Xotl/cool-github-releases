@@ -63,27 +63,27 @@ jobs:
           assets: README.md;LICENSE|text/plain;
           github_token: ${{ github.token }}
 
-      - name: It should edit release name, add asset test.yml & replace README.md with a new one 
+      - name: It should edit release name, add asset build.yml & replace README.md with a new one 
         uses: ./ # Uses the action in the root directory
         with:
           mode: update
           isPrerelease: true
           releaseId: ${{ steps.test_create.outputs.releaseId }}
           release_name: Testing edit of a release
-          assets: .github/workflows/test.yml;src/README.md
+          assets: .github/workflows/build.yml;src/README.md
           github_token: ${{ github.token }}
 
-      - name: It should download assets README.md, LICENCE, test.yml from Test release 
+      - name: It should download assets README.md, LICENCE, build.yml from Test release 
         uses: ./ # Uses the action in the root directory
         with:
           tag_name: ${{ env.tag_for_tests }}
-          assets: README.md|dowloaded_README.md;LICENSE|dowloaded_LICENSE;test.yml|dowloaded_test.yml
+          assets: README.md|dowloaded_README.md;LICENSE|dowloaded_LICENSE;build.yml|build.yml
           github_token: ${{ github.token }}
       - name: Confirm that files are correct
         run: |
           if [ "$(cat dowloaded_README.md)" != "${{env.TEST_TEXT}}" ]; then exit 1; fi
           if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
-          if [ "$(cat dowloaded_test.yml)" != "$(cat .github/workflows/test.yml)" ]; then exit 1; fi
+          if [ "$(cat build.yml)" != "$(cat .github/workflows/build.yml)" ]; then exit 1; fi
 
       - name: It should delete release with tag Test 
         uses: ./ # Uses the action in the root directory
