@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - 'README.md'
       - '.github/**'
+      - '.vscode/**'
 
 env:
   tag_for_tests: Test-${{ github.head_ref || github.ref || github.sha }}
