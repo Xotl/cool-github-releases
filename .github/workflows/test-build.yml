@@ -72,6 +72,7 @@ jobs:
         with:
           mode: update
           isPrerelease: true
+          replace_assets: true
           releaseId: ${{ steps.test_create.outputs.releaseId }}
           release_name: Testing edit of a release
           assets: .github/workflows/build.yml;src/README.md
