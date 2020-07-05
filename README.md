@@ -156,6 +156,10 @@ Use this mode to download assets from an existant release.
   The tag of a release. If `releaseId` is provided then this value will be ignored.  
   **Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
 
+* ### `repository` <sup>since v1.1.3</sup>
+  Set this value only if you want to download assets from another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`.
+  **Note:** Don't forget to pass a github token with the right permissions when setting this input otherwise you will get an error.
+
 <br/>
 <br/>
 <br/>
@@ -236,8 +240,11 @@ Since `v1.1.2` you have the option of replacing existing assets by setting `repl
 
   * ### `replace_assets` <sup>since v1.1.2</sup>
     Set this value to `true` if you want to be able to replace assets that already exist in the release, otherwise they will be considered errors.
+
   * ### `repository` <sup>since v1.1.3</sup>
-    Set this value if you want to download/upload assets from/to another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`. 
+    Set this value only if you want to upload assets to another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`.
+    **Note:** Don't forget to pass a github token with the right permissions when setting this input otherwise you will get an error.
+
 
 
 ### Outputs
@@ -280,6 +287,10 @@ Deletes a release by tag or id.
     ⚠  _This value is required if no `releaseId` is provided._
 
     Tag associated to the release that you want to delete.
+
+  * ### `repository` <sup>since v1.1.3</sup>
+    Set this value only if you want to delete assets from another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`.
+    **Note:** Don't forget to pass a github token with the right permissions when setting this input otherwise you will get an error.
 
 <br/>
 <br/>
