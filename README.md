@@ -158,6 +158,7 @@ Use this mode to download assets from an existant release.
 
 * ### `repository` <sup>since v1.1.3</sup>
   Set this value only if you want to download assets from another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`.
+  
   **Note:** Don't forget to pass a github token with the right permissions when setting this input otherwise you will get an error.
 
 <br/>
@@ -243,6 +244,7 @@ Since `v1.1.2` you have the option of replacing existing assets by setting `repl
 
   * ### `repository` <sup>since v1.1.3</sup>
     Set this value only if you want to upload assets to another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`.
+    
     **Note:** Don't forget to pass a github token with the right permissions when setting this input otherwise you will get an error.
 
 
@@ -290,6 +292,7 @@ Deletes a release by tag or id.
 
   * ### `repository` <sup>since v1.1.3</sup>
     Set this value only if you want to delete assets from another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`.
+    
     **Note:** Don't forget to pass a github token with the right permissions when setting this input otherwise you will get an error.
 
 <br/>
