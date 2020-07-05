@@ -33,7 +33,7 @@ Let's see what the options means:
 > **mode** - Indicates that we want to download assets. If no mode is specified, default value is `download`.  
 > **tag_name** - Indicates that we want to download from a release with the tag `v3.0.0`.  
 > **assets** - Indicates that we want the asset with the name `README.md` to be downloaded at the current working directory.  
-> **github_token** - A valid github token. For releases you can use the one created for the workflow.  
+> **github_token** - A valid github token. For releases you can [use the one created for the workflow][github_token].
 
 Here's another example:
 ```yaml
@@ -43,7 +43,7 @@ Here's another example:
           assets: README.md;LICENSE|myFolder/myLicense.txt
           github_token: ${{ github.token }}
 ```
-> **mode** - Since the default value is `download` we don't need pass any mode if we want to dowload assets.  
+> **mode** - Since the default value is `download` we don't need to pass any mode if we want to download assets.  
 > **tag_name** - If we don't specify a tag then the latest release will be used to download assets.  
 > **assets** - Indicates that we want to download the assets with name `README.md` & `LICENSE` in that release, but the asset `LICENSE` will be downloaded at `myFolder/myLicense.txt`.  
 > **github_token** - A valid github token. For releases you can use the one created for the workflow.  
@@ -236,6 +236,8 @@ Since `v1.1.2` you have the option of replacing existing assets by setting `repl
 
   * ### `replace_assets` <sup>since v1.1.2</sup>
     Set this value to `true` if you want to be able to replace assets that already exist in the release, otherwise they will be considered errors.
+  * ### `repository` <sup>since v1.1.3</sup>
+    Set this value if you want to download/upload assets from/to another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`. 
 
 
 ### Outputs
