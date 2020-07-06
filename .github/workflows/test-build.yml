@@ -3,13 +3,13 @@ on:
   push: 
     branches: 
       - master
-  pull_request:
-    branches: 
-      - */**
     paths-ignore:
       - 'README.md'
       - '.github/**'
       - '.vscode/**'
+  pull_request:
+    branches: 
+      - */**
 
 env:
   tag_for_tests: Test-${{ github.head_ref || github.ref || github.sha }}
