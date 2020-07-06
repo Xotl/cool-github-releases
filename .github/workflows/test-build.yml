@@ -98,7 +98,7 @@ jobs:
           repository: hay-espacio-en-el-taco/dbs-scraper
       - name: Confirm that files are correct
         run: |
-          if [ ! -f cards.json ]; then exit 1; fi
+          if [ ! -f dowloaded_cards.json ]; then exit 1; fi
 
       - name: It should delete release with tag Test 
         uses: ./ # Uses the action in the root directory
