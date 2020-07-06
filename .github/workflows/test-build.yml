@@ -90,6 +90,16 @@ jobs:
           if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
           if [ "$(cat build.yml)" != "$(cat .github/workflows/build.yml)" ]; then exit 1; fi
 
+      - name: It should download assets from another repo cards.json from Test release
+        uses: ./ # Uses the action in the root directory
+        with:
+          assets: cards.json|dowloaded_cards.json
+          github_token: ${{ secrets.DBS_SCRAPER_TOKEN }}
+          repository: hay-espacio-en-el-taco/dbs-scraper
+      - name: Confirm that files are correct
+        run: |
+          if [ ! -f cards.json ]; then exit 1; fi
+
       - name: It should delete release with tag Test 
         uses: ./ # Uses the action in the root directory
         with:
