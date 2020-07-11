@@ -101,9 +101,10 @@ jobs:
           repository: hay-espacio-en-el-taco/dbs-scraper
       - name: Confirm that downloaded files are correct
         run: |
+          limit=5000000
           actualsize=$(wc -c < "dowloaded_cards.json")
           echo "${actualsize}"
-          if [ ! -f dowloaded_cards.json ] || [ !$actualsize -ge 5000000 ]; then
+          if [ ! -f dowloaded_cards.json ] || [ ! $actualsize -ge 5000000 ]; then
               echo 'Failed!';
               exit 1;
           else
