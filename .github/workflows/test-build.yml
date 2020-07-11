@@ -16,6 +16,7 @@ env:
 
 jobs:
   build:
+    if: github.repository == 'Xotl/cool-github-releases'
     name: 'Build dist for testing'
     runs-on: ubuntu-latest
     steps:
