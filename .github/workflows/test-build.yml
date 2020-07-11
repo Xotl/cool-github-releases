@@ -94,7 +94,7 @@ jobs:
           if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
           if [ "$(cat build.yml)" != "$(cat .github/workflows/build.yml)" ]; then exit 1; fi
 
-      - name: It should download assets from another repo cards.json from Test release
+      - name: It should download asset cards.json from repo hay-espacio-en-el-taco/dbs-scraper
         uses: ./ # Uses the action in the root directory
         with:
           assets: cards.json|dowloaded_cards.json
@@ -117,16 +117,14 @@ jobs:
           github_token: ${{ github.token }}
 
   deploy_start:
+    # This job will only trigger the actual build & deploy workflow.
     runs-on: ubuntu-latest
-    name: Deploy
+    name: Deploy triggered
     needs: tests
+    if: github.ref == 'refs/heads/master'
 
     steps:
-      - name: Deploy confirmation
-        run: >-
-          echo "This job will only trigger the actual build & deploy workflow."
       - name: Trigger status event if master branch
-        if: github.ref == 'refs/heads/master'
         run: >-
           curl -L -X POST 
           -H "Content-Type: application/json"
