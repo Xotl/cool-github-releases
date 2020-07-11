@@ -121,9 +121,9 @@ jobs:
     needs: tests
 
     steps:
-      - name: Trigger status event if master branch
+      - name: Deploy confirmation
         run: >-
-          echo "Yeah, it's running"
+          echo "This job will only trigger the actual build & deploy workflow."
       - name: Trigger status event if master branch
         if: github.ref == 'refs/heads/master'
         run: >-
