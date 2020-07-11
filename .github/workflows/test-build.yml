@@ -110,6 +110,7 @@ jobs:
 
       - name: It should delete release with tag Test 
         uses: ./ # Uses the action in the root directory
+        if: ${{ always() }} # This will help to run the next test without manually deleting every time
         with:
           mode: delete
           tag_name: ${{ env.tag_for_tests }}
