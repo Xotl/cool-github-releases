@@ -101,14 +101,13 @@ jobs:
           repository: hay-espacio-en-el-taco/dbs-scraper
       - name: Confirm that downloaded files are correct
         run: |
-          limit=5000000
           actualsize=$(wc -c < "dowloaded_cards.json")
           echo "${actualsize}"
           if [ ! -f dowloaded_cards.json ] || [ ! $actualsize -ge 5000000 ]; then
               echo 'Failed!';
               exit 1;
           else
-            echo 'Enters elese case';
+            echo 'Enters else case';
           fi
 
       - name: It should delete release with tag Test 
@@ -119,6 +118,15 @@ jobs:
           tag_name: ${{ env.tag_for_tests }}
           github_token: ${{ github.token }}
 
+  deploy_start:
+    runs-on: ubuntu-latest
+    name: Deploy
+    needs: tests
+
+    steps:
+      - name: Trigger status event if master branch
+      run: >-
+        echo "Yeah, it's running"
       - name: Trigger status event if master branch
         if: github.ref == 'refs/heads/master'
         run: >-
