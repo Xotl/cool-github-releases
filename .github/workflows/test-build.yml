@@ -101,7 +101,7 @@ jobs:
           repository: hay-espacio-en-el-taco/dbs-scraper
       - name: Confirm that downloaded files are correct
         run: |
-          if [ ! -f fake_file.json ] || [ ! $(wc -c < fake_file.json) -ge 50000 ]; then
+          if [ ! -f dowloaded_cards.json ] || [ ! $(wc -c < dowloaded_cards.json) -ge 500000 ]; then
               echo 'Failed!';
               exit 1;
           else
