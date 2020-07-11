@@ -104,6 +104,8 @@ jobs:
           if [ ! -f dowloaded_cards.json ] || [ ! $(wc -c < dowloaded_cards.json) -ge 50000 ]; then
               echo 'Failed!';
               exit 1;
+          else
+            echo 'Enters elese case';
           fi
 
       - name: It should delete release with tag Test 
