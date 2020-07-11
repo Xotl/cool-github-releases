@@ -103,11 +103,8 @@ jobs:
         run: |
           actualsize=$(wc -c < "dowloaded_cards.json")
           echo "${actualsize}"
-          if [ ! -f dowloaded_cards.json ] || [ ! $actualsize -ge 5000000 ]; then
-              echo 'Failed!';
-              exit 1;
-          else
-            echo 'Enters else case';
+          if [ ! -f dowloaded_cards.json ] || [ ! $actualsize -ge 3000000 ]; then
+            exit 1;
           fi
 
       - name: It should delete release with tag Test 
