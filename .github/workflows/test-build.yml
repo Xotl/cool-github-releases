@@ -7,12 +7,16 @@ on:
       - 'README.md'
       - '.github/**'
       - '.vscode/**'
+  pull_request:
+    branches: 
+      - master
 
 env:
   tag_for_tests: Test-${{ github.head_ref || github.ref || github.sha }}
 
 jobs:
   build:
+    if: github.repository == 'Xotl/cool-github-releases'
     name: 'Build dist for testing'
     runs-on: ubuntu-latest
     steps:
@@ -90,15 +94,37 @@ jobs:
           if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
           if [ "$(cat build.yml)" != "$(cat .github/workflows/build.yml)" ]; then exit 1; fi
 
+      - name: It should download asset cards.json from repo hay-espacio-en-el-taco/dbs-scraper
+        uses: ./ # Uses the action in the root directory
+        with:
+          assets: cards.json|dowloaded_cards.json
+          github_token: ${{ secrets.DBS_SCRAPER_TOKEN }}
+          repository: hay-espacio-en-el-taco/dbs-scraper
+      - name: Confirm that downloaded files are correct
+        run: |
+          actualsize=$(wc -c < "dowloaded_cards.json")
+          echo "${actualsize}"
+          if [ ! -f dowloaded_cards.json ] || [ ! $actualsize -ge 3000000 ]; then
+            exit 1;
+          fi
+
       - name: It should delete release with tag Test 
         uses: ./ # Uses the action in the root directory
+        if: ${{ always() }} # This will help to run the next test without manually deleting every time
         with:
           mode: delete
           tag_name: ${{ env.tag_for_tests }}
           github_token: ${{ github.token }}
 
+  deploy_start:
+    # This job will only trigger the actual build & deploy workflow.
+    runs-on: ubuntu-latest
+    name: Deploy triggered
+    needs: tests
+    if: github.ref == 'refs/heads/master'
+
+    steps:
       - name: Trigger status event if master branch
-        if: github.ref == 'refs/heads/master'
         run: >-
           curl -L -X POST 
           -H "Content-Type: application/json"
