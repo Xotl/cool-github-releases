@@ -87,12 +87,12 @@ jobs:
         uses: ./ # Uses the action in the root directory
         with:
           tag_name: ${{ env.tag_for_tests }}
-          assets: README.md|dowloaded_README.md;LICENSE|dowloaded_LICENSE;test.yml|non-existant-folder/dowloaded_test.yml
+          assets: README.md|dowloaded_README.md;LICENSE|non-existant-folder/LICENSE;build.yml
           github_token: ${{ github.token }}
       - name: Confirm that files are correct
         run: |
           if [ "$(cat dowloaded_README.md)" != "${{env.TEST_TEXT}}" ]; then exit 1; fi
-          if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
+          if [ "$(cat non-existant-folder/LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
           if [ "$(cat build.yml)" != "$(cat .github/workflows/build.yml)" ]; then exit 1; fi
 
       - name: It should download asset cards.json from repo hay-espacio-en-el-taco/dbs-scraper
