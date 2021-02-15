@@ -21,13 +21,22 @@ inputs:
     description: 'Name to use instead for the release, if not provided the tag_name will be used instead.'
     required: false
   body_mrkdwn:
-    description: 'Description markdown used in a releases.'
+    description: 'Description markdown used when updating a release, or when creating one if initial_mrkdwn is not set.'
+    required: false
+  initial_mrkdwn:
+    description: 'Description markdown used only when creating a release.'
     required: false
   isDraft:
     description: 'Set to true to indicate if it is a draft release.'
     required: false
   isPrerelease:
     description: 'Set to true if you want the release to be a prerelease.'
+    required: false
+  replace_assets:
+    description: 'Set to true if you want existing assets to be replaced. Without setting this they will cause the action to fail.'
+    required: false
+  repository:
+    description: 'Repository that will be used for downloading/uploading assets.'
     required: false
 runs:
   using: 'node12'

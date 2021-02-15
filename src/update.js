@@ -106,10 +106,12 @@ module.exports = async (octokit, context) => {
     const tag_name = Core.getInput('tag_name') || undefined
     const releaseId = Core.getInput('releaseId') || undefined
     const draft = Core.getInput('isDraft') || undefined
-    const prerelease = Core.getInput('isPrerelease')  || undefined
+    const prerelease = Core.getInput('isPrerelease') || undefined
     const assetsInput = Core.getInput('assets') || undefined
+    const replaceAssets = Core.getInput('replace_assets') || undefined
     const name = Core.getInput('release_name') || undefined
     const body = Core.getInput('body_mrkdwn') || undefined
+    const initialBody = Core.getInput('initial_mrkdwn') || undefined
 
 
     if (!releaseId && !tag_name) {
@@ -145,10 +147,8 @@ module.exports = async (octokit, context) => {
                 opts.name = tag_name
             }
 
-            if (!body) {
-                opts.body = `Release based on tag **${tag_name}**. Enjoy! 🎉`
-            }
-
+            // When creating we default to initialBody if available, otherwise body, or our fallback value.
+            opts.body = initialBody || body || `Release based on tag **${tag_name}**. Enjoy! 🎉`
             opts.draft = draft === 'true'
             opts.prerelease = prerelease === 'true'
 
@@ -167,7 +167,7 @@ module.exports = async (octokit, context) => {
         return 
     }
 
-    if (foundRelease) {
+    if (foundRelease && replaceAssets) {
         // Check if we need to update assets instead of just adding more
         const existantAssets = releaseObj.assets.filter(
             (asset) => fileList.find(

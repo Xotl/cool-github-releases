@@ -1,11 +1,14 @@
-name: 'Test action modes'
+name: 'Test before build'
 on:
   push: 
     branches: 
       - master
-      - development
+    paths-ignore:
+      - 'README.md'
+      - '.github/**'
+      - '.vscode/**'
   pull_request:
-    branches:
+    branches: 
       - master
       - development
 
@@ -14,6 +17,7 @@ env:
 
 jobs:
   build:
+    if: github.repository == 'Xotl/cool-github-releases'
     name: 'Build dist for testing'
     runs-on: ubuntu-latest
     steps:
@@ -68,17 +72,18 @@ jobs:
           assets: README.md;LICENSE|text/plain;
           github_token: ${{ github.token }}
 
-      - name: It should edit release name, add asset test.yml & replace README.md with a new one 
+      - name: It should edit release name, add asset build.yml & replace README.md with a new one 
         uses: ./ # Uses the action in the root directory
         with:
           mode: update
           isPrerelease: true
+          replace_assets: true
           releaseId: ${{ steps.test_create.outputs.releaseId }}
           release_name: Testing edit of a release
-          assets: .github/workflows/test.yml;src/README.md
+          assets: .github/workflows/build.yml;src/README.md
           github_token: ${{ github.token }}
 
-      - name: It should download assets README.md, LICENCE, test.yml from Test release 
+      - name: It should download assets README.md, LICENCE, build.yml from Test release 
         uses: ./ # Uses the action in the root directory
         with:
           tag_name: ${{ env.tag_for_tests }}
@@ -88,11 +93,46 @@ jobs:
         run: |
           if [ "$(cat dowloaded_README.md)" != "${{env.TEST_TEXT}}" ]; then exit 1; fi
           if [ "$(cat dowloaded_LICENSE)" != "$(cat LICENSE)" ]; then exit 1; fi
-          if [ "$(cat non-existant-folder/dowloaded_test.yml)" != "$(cat .github/workflows/test.yml)" ]; then exit 1; fi
+          if [ "$(cat build.yml)" != "$(cat .github/workflows/build.yml)" ]; then exit 1; fi
+
+      - name: It should download asset cards.json from repo hay-espacio-en-el-taco/dbs-scraper
+        uses: ./ # Uses the action in the root directory
+        with:
+          assets: cards.json|dowloaded_cards.json
+          github_token: ${{ secrets.DBS_SCRAPER_TOKEN }}
+          repository: hay-espacio-en-el-taco/dbs-scraper
+      - name: Confirm that downloaded files are correct
+        run: |
+          actualsize=$(wc -c < "dowloaded_cards.json")
+          echo "${actualsize}"
+          if [ ! -f dowloaded_cards.json ] || [ ! $actualsize -ge 3000000 ]; then
+            exit 1;
+          fi
 
       - name: It should delete release with tag Test 
         uses: ./ # Uses the action in the root directory
+        if: ${{ always() }} # This will help to run the next test without manually deleting every time
         with:
           mode: delete
           tag_name: ${{ env.tag_for_tests }}
           github_token: ${{ github.token }}
+
+  deploy_start:
+    # This job will only trigger the actual build & deploy workflow.
+    runs-on: ubuntu-latest
+    name: Deploy triggered
+    needs: tests
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Trigger status event if master branch
+        run: >-
+          curl -L -X POST 
+          -H "Content-Type: application/json"
+          -H "Authorization: token ${{ secrets.GITHUB_OAUTH_TOKEN }}"
+          -d '{
+            "state": "success",
+            "target_url": "https://github.com/${GITHUB_REPOSITORY}/actions?query=workflow%3A\"Test+action+modes\"",
+            "description": "All tests passed", "context": "test-suite/pass"
+          }'
+          "https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}"

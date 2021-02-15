@@ -33,7 +33,7 @@ Let's see what the options means:
 > **mode** - Indicates that we want to download assets. If no mode is specified, default value is `download`.  
 > **tag_name** - Indicates that we want to download from a release with the tag `v3.0.0`.  
 > **assets** - Indicates that we want the asset with the name `README.md` to be downloaded at the current working directory.  
-> **github_token** - A valid github token. For releases you can use the one created for the workflow.  
+> **github_token** - A valid github token. For releases you can [use the one created for the workflow][github_token].
 
 Here's another example:
 ```yaml
@@ -43,7 +43,7 @@ Here's another example:
           assets: README.md;LICENSE|myFolder/myLicense.txt
           github_token: ${{ github.token }}
 ```
-> **mode** - Since the default value is `download` we don't need pass any mode if we want to dowload assets.  
+> **mode** - Since the default value is `download` we don't need to pass any mode if we want to download assets.  
 > **tag_name** - If we don't specify a tag then the latest release will be used to download assets.  
 > **assets** - Indicates that we want to download the assets with name `README.md` & `LICENSE` in that release, but the asset `LICENSE` will be downloaded at `myFolder/myLicense.txt`.  
 > **github_token** - A valid github token. For releases you can use the one created for the workflow.  
@@ -156,6 +156,11 @@ Use this mode to download assets from an existant release.
   The tag of a release. If `releaseId` is provided then this value will be ignored.  
   **Note:** If no `releaseId` nor `tag_name` is specified then it will use the latest release.
 
+* ### `repository` <sup>since v1.1.3</sup>
+  Set this value only if you want to download assets from another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`.
+  
+  **Note:** Don't forget to pass a github token with the right permissions when setting this input otherwise you will get an error.
+
 <br/>
 <br/>
 <br/>
@@ -163,7 +168,7 @@ Use this mode to download assets from an existant release.
 ## Mode: `update` <sup>since v1.0.7</sup>
 Use this mode to create/edit releases. Also this mode allows you to upload assets to the release.
 
-Since `v1.1.0` if you're going to edit a release and an asset name in that release matches one of your assets specified via the `assets` input then the existant asset will be deleted from the release so the new asset can be uploaded. Basically replaces the old asset with the new one provided.
+Since `v1.1.2` you have the option of replacing existing assets by setting `replace_assets` to `true`. With this option set, if you're going to edit a release and an asset name in that release matches one of your assets specified via the `assets` input then the existant asset will be deleted from the release so the new asset can be uploaded. Basically replaces the old asset with the new one provided. Without setting this option, the default behavior is for the action to fail if you try to upload assets that already exist.
 
 ### Inputs:
 
@@ -221,8 +226,11 @@ Since `v1.1.0` if you're going to edit a release and an asset name in that relea
   * ### `release_name` <sup>since v1.0.7</sup>
     Indicates the name of the release. If this value is not provided then the value of `tag_name` will be used instead.
 
+  * ### `initial_mrkdwn` <sup>since v1.1.2</sup>
+    Description that you want for your release, if the release does not already exist. This can be markdown syntax. Default value is the value of `body_mrkdwn` if that is also set, or `Release based on tag **${tag_name}**. Enjoy! 🎉` if neither is set.
+
   * ### `body_mrkdwn` <sup>since v1.0.7</sup>
-    Description that you want for your release. This can be mardown syntax. Defualt value is `Release based on tag **${tag_name}**. Enjoy! 🎉`
+    Description that you want for your release even if it already exists. This can be markdown syntax. If you omit this, an existing release description will not  be modified.
 
   * ### `isDraft` <sup>since v1.0.7</sup>
     Set this value to `true` if you want this release to be flagged as a draft.  
@@ -230,6 +238,15 @@ Since `v1.1.0` if you're going to edit a release and an asset name in that relea
 
   * ### `isPrerelease` <sup>since v1.0.7</sup>
     Set this value to `true` if you want this release to be flagged as a prerelease.
+
+  * ### `replace_assets` <sup>since v1.1.2</sup>
+    Set this value to `true` if you want to be able to replace assets that already exist in the release, otherwise they will be considered errors.
+
+  * ### `repository` <sup>since v1.1.3</sup>
+    Set this value only if you want to upload assets to another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`.
+    
+    **Note:** Don't forget to pass a github token with the right permissions when setting this input otherwise you will get an error.
+
 
 
 ### Outputs
@@ -272,6 +289,11 @@ Deletes a release by tag or id.
     ⚠  _This value is required if no `releaseId` is provided._
 
     Tag associated to the release that you want to delete.
+
+  * ### `repository` <sup>since v1.1.3</sup>
+    Set this value only if you want to delete assets from another repository. Must be a string representing the repository in the format _<owner>/<repository name>_ i.e. `microsoft/vscode-docs`.
+    
+    **Note:** Don't forget to pass a github token with the right permissions when setting this input otherwise you will get an error.
 
 <br/>
 <br/>

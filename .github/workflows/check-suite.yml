@@ -1,4 +1,4 @@
-name: 'Check status data'
+name: 'Status event test'
 on: status
 
 env:
@@ -10,5 +10,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print context
+      - name: Print event context
         run: echo "Wow, such debugging ${{ toJson(github.event) }}"
