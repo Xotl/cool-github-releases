@@ -3,9 +3,11 @@ on:
   push: 
     branches: 
       - master
+      - development
   pull_request:
     branches:
       - master
+      - development
 
 env:
   tag_for_tests: Test-${{ github.head_ref || github.ref || github.sha }}
