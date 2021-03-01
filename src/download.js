@@ -29,8 +29,8 @@ const downloadFile = (assetId, output, githubToken, context) => new Promise(
         file.on('finish', resolve)
         file.on('error', failFn)
         Fetch(
-            `https://api.github.com/repos/${owner}/${repo}/releases/assets/${assetId}?access_token=${githubToken}`,
-            { headers: { 'Accept' : 'application/octet-stream' } }
+            `https://api.github.com/repos/${owner}/${repo}/releases/assets/${assetId}`,
+            { headers: { 'Authorization': `token ${githubToken}`, 'Accept' : 'application/octet-stream' } }
         ).then(res => res.body.pipe( file )).catch( failFn )
     }
 )
