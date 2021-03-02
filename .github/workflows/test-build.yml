@@ -2,7 +2,7 @@ name: 'Test before build'
 on:
   push: 
     branches: 
-      - master
+      - testing-pr-fix
     paths-ignore:
       - 'README.md'
       - '.github/**'
