@@ -1,4 +1,4 @@
-name: 'Status event test'
+name: 'Some worflow testing'
 on: push # status
 
 env:
@@ -17,5 +17,4 @@ jobs:
 
       - name: Confirm that it printed the value
         run: |
-          SOME_VARIABLE="Here's the value"
-          echo "Just printing the value: '${{env.NEW_TAG}}'"
+          echo "Just printing the value: '${{ env.SOME_ENV_VARIABLE }}'"
