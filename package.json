@@ -24,8 +24,9 @@
     "build": "ncc build src/index.js -m -C -o dist"
   },
   "dependencies": {
-    "@actions/core": "^1.2.0",
+    "@actions/core": "^1.2.6",
     "@actions/github": "^2.0.0",
-    "mime-types": "^2.1.25"
+    "mime-types": "^2.1.25",
+    "node-fetch": "^2.6.1"
   }
 }
