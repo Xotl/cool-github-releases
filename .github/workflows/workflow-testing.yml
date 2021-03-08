@@ -1,0 +1,20 @@
+name: 'Some worflow testing'
+on: push # status
+
+env:
+  THE_GITHUB_CONTEXT: ${{ toJson(github) }}
+
+jobs:
+  something:
+    name: 'some job'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Testing new way to set variables
+        run: |
+          SOME_VARIABLE="Here's the value"
+          echo "SOME_ENV_VARIABLE=${SOME_VARIABLE}" >> $GITHUB_ENV
+
+      - name: Confirm that it printed the value
+        run: |
+          echo "Just printing the value: '${{ env.SOME_ENV_VARIABLE }}'"
