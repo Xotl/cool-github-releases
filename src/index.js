@@ -44,4 +44,6 @@ async function main() {
     await modeFn(octokit, context, githubToken)
 }
 
-main()
+main().catch(
+    err => Core.setFailed(err)
+)

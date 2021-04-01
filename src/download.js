@@ -84,7 +84,7 @@ module.exports = async (octokit, context, githubToken) => {
             } catch (err) {
                 Core.error(`An error occurred while downloading asset '${assetReq.fileName}': Cannot edit contents in "${folderPath}". ${err}`)
                 errOnAssets = true
-                throw err
+                return
             }
 
             console.log(`Starting the download of asset ${assetReq.fileName}...`)
@@ -102,5 +102,9 @@ module.exports = async (octokit, context, githubToken) => {
         })
     )
 
-    console.log(`Download of assets finished ${errOnAssets ? 'with errors' : 'successfully'}.`)
+    if (errOnAssets) {
+        Core.warning('Download of assets finished with errors. Please check the log for mor details.')
+    } else {
+        console.log('Download of assets finished successfully.')
+    }
 }
