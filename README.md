@@ -120,6 +120,8 @@ Use this mode to download assets from an existant release.
 
   A string indicating the assets that you want to download. You can get one asset, multiple assets or even specify a download path.
 
+  _Note: Since v1.1.5, if you provide a file path it will try to create the folder in case it doesn't exists._
+
   The character `;` is the separator for different asset names and a `|` character after an asset name indicates the path in which the asset will be downloaded.
 
 

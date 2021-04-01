@@ -3,6 +3,7 @@ const Core = require('@actions/core')
 const FS = require('fs');
 const Path = require('path');
 const Fetch = require('node-fetch');
+const FSPromises = FS.promises;
 const {
     getReleaseFn, splitAssetsString
 } = require('./utils')
@@ -62,31 +63,48 @@ module.exports = async (octokit, context, githubToken) => {
 
     let errOnAssets = false 
     await Promise.all(
-        assetList.map(assetReq => {
+        assetList.map(async assetReq => {
             const assetInfo = releaseObj.assets.find(a => a.name === assetReq.fileName)
             if (!assetInfo) {
                 Core.warning(`Skipping download of file: No asset with name '${assetReq.fileName}' found in '${type}' release.`)
                 return
             }
-    
+
+
+            let canDownloadFileIntoFolder = false
+            const folderPath = Path.dirname(assetReq.output)
+
+            try {
+                // Create directory in case it doesn't exists
+                await FSPromises.mkdir(folderPath, {recursive: true})
+
+                // Confirm that can download file into folder
+                await FSPromises.access(folderPath, FS.constants.R_OK | FS.constants.W_OK)
+                canDownloadFileIntoFolder = true
+            } catch (err) {
+                Core.error(`An error occurred while downloading asset '${assetReq.fileName}': Cannot edit contents in "${folderPath}". ${err}`)
+                errOnAssets = true
+                return
+            }
+
             console.log(`Starting the download of asset ${assetReq.fileName}...`)
-            const downloadPromise = downloadFile(
-                assetInfo.id, assetReq.output,
-                githubToken, context
-            )
-
-            downloadPromise.then(
-                () => console.log(`Asset '${assetReq.fileName}' downloaded successfully at '${assetReq.output}'!`)
-            ).catch(
-                (err) => {
-                    errOnAssets = true
-                    Core.error(`An error occurred while downloading asset '${assetReq.fileName}': ${err}`)
-                }
-            )
-
-            return downloadFile
+            
+            try {
+                await downloadFile(
+                    assetInfo.id, assetReq.output,
+                    githubToken, context
+                )
+                console.log(`Asset '${assetReq.fileName}' downloaded successfully at '${assetReq.output}'!`)
+            } catch (err) {
+                errOnAssets = true
+                Core.error(`An error occurred while downloading asset '${assetReq.fileName}': ${err}`)
+            }
         })
     )
 
-    console.log(`Download of assets finished ${errOnAssets ? 'with errors' : 'successfully'}.`)
+    if (errOnAssets) {
+        Core.warning('Download of assets finished with errors. Please check the log for more details.')
+    } else {
+        console.log('Download of assets finished successfully.')
+    }
 }
