@@ -71,8 +71,8 @@ module.exports = async (octokit, context, githubToken) => {
             }
 
 
+            let canDownloadFileIntoFolder = false
             const folderPath = Path.dirname(assetReq.output)
-            const canDownloadFileIntoFolder = false
 
             try {
                 // Create directory in case it doesn't exists
@@ -103,7 +103,7 @@ module.exports = async (octokit, context, githubToken) => {
     )
 
     if (errOnAssets) {
-        Core.warning('Download of assets finished with errors. Please check the log for mor details.')
+        Core.warning('Download of assets finished with errors. Please check the log for more details.')
     } else {
         console.log('Download of assets finished successfully.')
     }
