@@ -18,7 +18,7 @@ const getContext = () => {
         return null
     }
 
-    const [owner, repo] = repository.split('/');
+    const [owner, repo] = repository.trim().split('/');
     return {owner, repo}
 }
 
