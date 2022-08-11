@@ -19,5 +19,5 @@ CMD ["npm", "start"]
 #         Builder
 # -------------------------
 FROM development as builder
-RUN npm i -g @zeit/ncc
+RUN npm i -g @vercel/ncc
 CMD ["npm", "run", "build"]
