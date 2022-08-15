@@ -1,12 +1,10 @@
-name: 'Master Code Updated'
-on: status
+name: 'Deploy to Marketplace'
+on: workflow_call
 
 jobs:
   build:
     name: 'Generate dist'
     runs-on: ubuntu-latest
-
-    if: github.event.context == 'test-suite/pass'
 
     steps:
       - uses: actions/checkout@v2

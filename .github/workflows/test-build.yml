@@ -119,20 +119,8 @@ jobs:
 
   deploy_start:
     # This job will only trigger the actual build & deploy workflow.
-    runs-on: ubuntu-latest
-    name: Deploy triggered
-    needs: tests
     if: github.ref == 'refs/heads/master'
-
-    steps:
-      - name: Trigger status event if master branch
-        run: >-
-          curl -L -X POST 
-          -H "Content-Type: application/json"
-          -H "Authorization: token ${{ secrets.GITHUB_OAUTH_TOKEN }}"
-          -d '{
-            "state": "success",
-            "target_url": "https://github.com/${GITHUB_REPOSITORY}/actions?query=workflow%3A\"Test+action+modes\"",
-            "description": "All tests passed", "context": "test-suite/pass"
-          }'
-          "https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}"
+    name: Trigger deploy
+    uses: ./.github/workflows/build.yml
+    needs: tests
+    secrets: inherit
