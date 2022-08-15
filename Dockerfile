@@ -1,7 +1,7 @@
 # -------------------------
 #       Development
 # -------------------------
-FROM node:16 as development
+FROM node:18 as development
 
 ENV APP_FOLDER="/usr/src/app" 
 
