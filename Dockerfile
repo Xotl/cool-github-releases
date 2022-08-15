@@ -1,7 +1,7 @@
 # -------------------------
 #       Development
 # -------------------------
-FROM node:16 as development
+FROM node:16.14.2-slim as development
 
 ENV APP_FOLDER="/usr/src/app" 
 WORKDIR ${APP_FOLDER}
