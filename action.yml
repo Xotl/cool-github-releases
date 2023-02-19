@@ -35,6 +35,9 @@ inputs:
   replace_assets:
     description: 'Set to true if you want existing assets to be replaced. Without setting this they will cause the action to fail.'
     required: false
+  repository:
+    description: 'Repository that will be used for downloading/uploading assets.'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

@@ -18,7 +18,7 @@ const getContext = () => {
         return null
     }
 
-    const [owner, repo] = repository.split('/');
+    const [owner, repo] = repository.trim().split('/');
     return {owner, repo}
 }
 
@@ -44,4 +44,6 @@ async function main() {
     await modeFn(octokit, context, githubToken)
 }
 
-main()
+main().catch(
+    err => Core.setFailed(err)
+)

@@ -1,12 +1,10 @@
-name: 'Master Code Updated'
-on: status
+name: 'Deploy to Marketplace'
+on: workflow_call
 
 jobs:
   build:
     name: 'Generate dist'
     runs-on: ubuntu-latest
-
-    if: github.event.context == 'test-suite/pass'
 
     steps:
       - uses: actions/checkout@v2
@@ -52,9 +50,9 @@ jobs:
           NEW_VERSION=$(npm version | grep "cool-github-releases" | cut -d ':' -f2 | cut -d \' -f2)
           NEW_MAJOR_TAG="v$(echo "${NEW_VERSION}" | cut -d '.' -f1)"
           NEW_TAG="v${NEW_VERSION}"
-          echo "::set-env name=NEW_VERSION::${NEW_VERSION}"
-          echo "::set-env name=NEW_MAJOR_TAG::${NEW_MAJOR_TAG}"
-          echo "::set-env name=NEW_TAG::${NEW_TAG}"
+          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
+          echo "NEW_MAJOR_TAG=${NEW_MAJOR_TAG}" >> $GITHUB_ENV
+          echo "NEW_TAG=${NEW_TAG}" >> $GITHUB_ENV
 
 
       - name: Push tags & files back to repo
