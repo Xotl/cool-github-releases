@@ -36,7 +36,7 @@ inputs:
     description: 'Set to true if you want existing assets to be replaced. Without setting this they will cause the action to fail.'
     required: false
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
 branding:
   icon: 'box'  
