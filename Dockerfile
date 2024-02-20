@@ -1,7 +1,7 @@
 # -------------------------
 #       Development
 # -------------------------
-FROM node:lts-slim as development
+FROM node:20-slim as development
 
 ENV APP_FOLDER="/usr/src/app" 
 WORKDIR ${APP_FOLDER}
