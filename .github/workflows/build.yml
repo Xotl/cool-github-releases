@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Build the Docker image
         run: docker build --target builder -t gh-action-builder .
@@ -18,7 +18,7 @@ jobs:
           docker run --rm -v ${PWD}/new-dist:/usr/src/app/dist gh-action-builder
 
       - name: Save dist folder
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: dist
           path: ./new-dist/
@@ -33,7 +33,7 @@ jobs:
       REMOTE_REF: ${{ github.ref }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Delete old dist
         run: rm -rf dist
