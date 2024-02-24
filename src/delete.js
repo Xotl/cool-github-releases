@@ -1,4 +1,4 @@
-'use sstrict'
+'use strict'
 const Core = require('@actions/core')
 
 module.exports = async (octokit, context) => {

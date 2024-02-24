@@ -1,4 +1,4 @@
-'use sstrict'
+'use strict'
 const Core = require('@actions/core')
 const FS = require('fs');
 const Path = require('path');
