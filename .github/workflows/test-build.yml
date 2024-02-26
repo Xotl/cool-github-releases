@@ -57,6 +57,7 @@ jobs:
 
       - name: Prepare files for tests
         run: |
+          ls -a
           echo "${{env.TEST_TEXT}}" > "./src/README.md"
 
       - name: It should create a release with assets README.md and LICENCE
