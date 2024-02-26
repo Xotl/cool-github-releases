@@ -71,6 +71,8 @@ jobs:
           body_mrkdwn: "### It works!\n Wow, it worked like a charm 🎉"
           assets: README.md;LICENSE|text/plain;
           github_token: ${{ github.token }}
+      
+      - name: Debugging
         run: echo "The release ID is ${{ steps.test_create.outputs.releaseId }}"
 
       - name: It should edit release name, add asset build.yml & replace README.md with a new one 
