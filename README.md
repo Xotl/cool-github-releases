@@ -1,4 +1,4 @@
-![Test status badge][]
+[![Test action](https://github.com/Xotl/cool-github-releases/actions/workflows/test-build.yml/badge.svg?event=push)](https://github.com/Xotl/cool-github-releases/actions/workflows/test-build.yml)
 
 # The Cool GH Releases action
 > Download/Upload release Assets - A more complete action for Github releases
@@ -302,7 +302,7 @@ Deletes a release by tag or id.
 <br/>
 
 ## Thanks fo using it! 😊
-Find something odd or not working properly?, please [create an issue](https://github.com/Xotl/cool-github-releases/issues/new) with the details. 
+Found something odd or not working properly?, please [create an issue](https://github.com/Xotl/cool-github-releases/issues/new) with the details. 
 
 
 [Test status badge]: https://github.com/Xotl/cool-github-releases/workflows/Test%20action%20modes/badge.svg?branch=master "Test status badge"
