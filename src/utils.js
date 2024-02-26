@@ -1,4 +1,4 @@
-'use sstrict'
+'use strict'
 
 const splitAssetsString = assetStr => assetStr.split(';').filter(a => a)
 

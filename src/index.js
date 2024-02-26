@@ -1,3 +1,4 @@
+'use strict'
 const github = require('@actions/github')
 const Core = require('@actions/core')
 

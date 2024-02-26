@@ -1,10 +1,10 @@
-'use sstrict'
+'use strict'
 const FS = require('fs')
 const Core = require('@actions/core')
 const Mime = require('mime-types')
 const Path = require('path');
 const {
-    findRelease, 
+    findRelease,
     splitAssetsString
 } = require('./utils')
 
