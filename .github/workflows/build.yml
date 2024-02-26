@@ -56,20 +56,20 @@ jobs:
           echo "NEW_TAG=${NEW_TAG}" >> $GITHUB_ENV
 
 
-      - name: Push tags & files back to repo
-        run: |
-          git config user.name "github"
-          git config user.email "github@users.noreply.github.com"
-          git add .
-          git commit -m "${{env.NEW_TAG}} | Auto pushed from Github Actions"
-          git push ${REMOTE_REPO} :refs/tags/${{env.NEW_MAJOR_TAG}} || true
-          git tag -fa "${{env.NEW_MAJOR_TAG}}" -m "${{env.NEW_MAJOR_TAG}} | Auto pushed from Github Actions"
-          git tag -a "${{env.NEW_TAG}}" -m "${{env.NEW_TAG}} | Auto pushed from Github Actions"
-          git push --follow-tags ${REMOTE_REPO} HEAD:${REMOTE_REF}
+      # - name: Push tags & files back to repo
+      #   run: |
+      #     git config user.name "github"
+      #     git config user.email "github@users.noreply.github.com"
+      #     git add .
+      #     git commit -m "${{env.NEW_TAG}} | Auto pushed from Github Actions"
+      #     git push ${REMOTE_REPO} :refs/tags/${{env.NEW_MAJOR_TAG}} || true
+      #     git tag -fa "${{env.NEW_MAJOR_TAG}}" -m "${{env.NEW_MAJOR_TAG}} | Auto pushed from Github Actions"
+      #     git tag -a "${{env.NEW_TAG}}" -m "${{env.NEW_TAG}} | Auto pushed from Github Actions"
+      #     git push --follow-tags ${REMOTE_REPO} HEAD:${REMOTE_REF}
 
-      - name: Create a new release
-        uses: Xotl/cool-github-releases@v1
-        with:
-          mode: update
-          tag_name: ${{env.NEW_TAG}}
-          github_token: ${{ github.token }} 
+      # - name: Create a new release
+      #   uses: Xotl/cool-github-releases@v1
+      #   with:
+      #     mode: update
+      #     tag_name: ${{env.NEW_TAG}}
+      #     github_token: ${{ github.token }} 

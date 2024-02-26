@@ -119,7 +119,7 @@ jobs:
 
   deploy_start:
     # This job will trigger the actual build & deploy workflow
-    if: github.ref == 'refs/heads/master'
+    # if: github.ref == 'refs/heads/master'
     name: Trigger deploy
     uses: ./.github/workflows/build.yml
     needs: tests
