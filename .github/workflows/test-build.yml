@@ -58,7 +58,6 @@ jobs:
 
       - name: Prepare files for tests
         run: |
-          ls -a
           echo "${{env.TEST_TEXT}}" > "./src/README.md"
 
       - name: It should create a release with assets README.md and LICENCE
@@ -72,6 +71,7 @@ jobs:
           body_mrkdwn: "### It works!\n Wow, it worked like a charm 🎉"
           assets: README.md;LICENSE|text/plain;
           github_token: ${{ github.token }}
+        run: echo "The release ID is ${{ steps.test_create.outputs.releaseId }}"
 
       - name: It should edit release name, add asset build.yml & replace README.md with a new one 
         uses: ./ # Uses the action in the root directory
