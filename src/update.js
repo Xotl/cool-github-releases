@@ -91,6 +91,7 @@ const deleteAssets = async (octokit, context, assetsList) => Promise.all(
 
 
 const editRelease = async (octokit, opts, release_id) => {
+    let releaseObj
     try {
         releaseObj = await octokit.repos.updateRelease({...opts, release_id})
     } catch (err) {
