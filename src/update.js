@@ -137,7 +137,7 @@ module.exports = async (octokit, context) => {
 
     // Create/Update the release values
     const opts = { ...context, body, name, tag_name, draft, prerelease }
-    let releaseObj
+    let releaseObj = null;
     try {
         if (foundRelease) {
             releaseObj = await editRelease(octokit, opts, foundRelease.id)
